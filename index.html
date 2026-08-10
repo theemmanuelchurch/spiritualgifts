@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -137,11 +138,6 @@
   .full-bar-row .pct{ font-size:12px; color:var(--muted); }
 
   .export-box{ border:1px dashed var(--line); border-radius:14px; padding:22px; margin-top:8px; background:var(--bg); }
-  .export-status{ font-size:13.5px; margin-top:12px; line-height:1.5; }
-  .export-status.ok{ color:var(--ink); font-weight:600; }
-  .export-status.err{ color:var(--ink); font-weight:600; }
-  .export-status.pending{ color:var(--muted); }
-  .spinner{ display:inline-block; width:12px; height:12px; border:2px solid var(--line); border-top-color:var(--gray-900); border-radius:50%; animation:spin .7s linear infinite; margin-right:6px; vertical-align:-2px;}
   @keyframes spin{ to{ transform:rotate(360deg); } }
 
   .footer-note{ text-align:center; font-size:12px; color:var(--muted); margin-top:26px; line-height:1.6; }
@@ -155,7 +151,7 @@
   <h1 class="title">Spiritual Gifts Assessment</h1>
   <p class="subtitle">A self-scoring tool to help you recognize the gifts God has given you for building up His people — with a full, personalized results report at the end.</p>
   <div id="app"></div>
-  <div class="footer-note">This assessment is a discernment aid, not a formal diagnosis of calling. Confirm what you discover in community, through prayer, and over time. · 20 gifts · 80 statements · ~10–15 minutes</div>
+  <div class="footer-note">This assessment is a discernment tool. Confirm what you discover in community, through prayer, and over time. <br> 20 gifts | 80 statements | ~10–15 minutes</div>
 </div>
 
 <script>
@@ -282,7 +278,6 @@ let state = {
   order: [], // shuffled flat list of {giftId, si} built at quiz start
   profile: { firstName:"", lastName:"", email:"" },
   answers: {}, // giftId -> [a,b,c,d]
-  exportStatus: null, // null | 'pending' | 'ok' | 'err'
   exportMessage: "",
 };
 
@@ -311,15 +306,15 @@ function renderIntro(){
       <div class="row2">
         <div>
           <label class="field-label" for="firstName">First name</label>
-          <input type="text" id="firstName" placeholder="Jordan">
+          <input type="text" id="firstName" placeholder="John">
         </div>
         <div>
           <label class="field-label" for="lastName">Last name</label>
-          <input type="text" id="lastName" placeholder="Rivera">
+          <input type="text" id="lastName" placeholder="Doe">
         </div>
       </div>
       <label class="field-label" for="email">Email address</label>
-      <input type="email" id="email" placeholder="jordan@example.com" style="margin-bottom:8px;">
+      <input type="email" id="email" placeholder="john@example.com" style="margin-bottom:8px;">
       <div class="btn-row">
         <span style="font-size:12px; color:var(--muted);">Your info is only used for your results report and export.</span>
         <button class="btn btn-primary" id="startBtn">Start assessment →</button>
@@ -490,19 +485,16 @@ function renderResults(){
 
       <h3 style="margin-bottom:4px; margin-top:30px;">Next Steps</h3>
       <ul style="font-size:14.5px; line-height:1.7; color:var(--ink);">
-        <li>Share these results with a pastor, mentor, or small group leader who knows you — gifts are confirmed in community.</li>
+        <li>Share these results with a pastor, mentor, or crew leader who knows you — gifts are confirmed in community.</li>
         <li>Look for a low-stakes way to try out your top 1–2 gifts this month.</li>
         <li>Retake this assessment in 6–12 months; gifts often become clearer with use and season of life.</li>
       </ul>
 
       <div class="export-box">
-        <h3 style="margin:0 0 6px; font-size:16px;">Your results are being saved</h3>
-        <p style="color:var(--muted); font-size:13.5px; margin:0 0 14px;">This submission is automatically sent to our team's system. You can also download a private copy for yourself below.</p>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
           <button class="btn btn-ghost" id="csvBtn">Download CSV</button>
           <button class="btn btn-ghost" id="printBtn">Print / Save as PDF</button>
         </div>
-        <div id="exportStatus"></div>
       </div>
     </div>
   `;
@@ -552,26 +544,15 @@ function buildZapierPayload(ranked){
   return payload;
 }
 
-async function sendToZapier(ranked){
-  const statusEl = () => document.getElementById('exportStatus');
-  if(statusEl()) statusEl().innerHTML = `<div class="export-status pending"><span class="spinner"></span>Saving your results…</div>`;
-  try{
-    // Zapier's Catch Hook endpoint doesn't send back CORS headers, so a normal
-    // "cors" request throws "Failed to fetch" even when it succeeds. We send it
-    // "no-cors" instead — the request still goes out, we just can't read a
-    // response back. text/plain avoids a CORS preflight (application/json
-    // would trigger one, which no-cors mode can't complete); Zapier still
-    // parses the body as JSON regardless of the Content-Type header.
-    await fetch(ZAPIER_WEBHOOK_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain" },
-      body: JSON.stringify(buildZapierPayload(ranked))
-    });
-    if(statusEl()) statusEl().innerHTML = `<div class="export-status ok">✓ Your results have been sent.</div>`;
-  } catch(err){
-    if(statusEl()) statusEl().innerHTML = `<div class="export-status err">Couldn't save your results automatically (${escapeHtml(err.message)}). Please use "Download CSV" below and send it to us directly.</div>`;
-  }
+function sendToZapier(ranked){
+  // Fire-and-forget: no-cors means the browser won't expose (or wait on)
+  // the response, and nothing is shown to the user either way.
+  fetch(ZAPIER_WEBHOOK_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(buildZapierPayload(ranked))
+  }).catch(() => {});
 }
 
 // Auto-send exactly once per results view (guards against re-render loops).
