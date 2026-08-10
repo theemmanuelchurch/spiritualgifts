@@ -522,10 +522,11 @@ function downloadCSV(ranked){
 }
 
 /* ---------------- ZAPIER WEBHOOK EXPORT ----------------
-   Every respondent's results are automatically POSTed as JSON to a fixed
-   Zapier "Catch Hook" webhook the moment the results page loads — no setup
-   step or user action required. From there the Zap routes it into Google
-   Sheets, Airtable, a CRM, email, Slack, etc. */
+   Every respondent's results are automatically POSTed as individual form
+   fields (not a JSON blob) to a fixed Zapier "Catch Hook" webhook the
+   moment the results page loads — no setup step or user action required.
+   From there the Zap routes it into Google Sheets, Airtable, a CRM,
+   email, Slack, etc. */
 const ZAPIER_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/26703624/46c3a9p/";
 
 function buildZapierPayload(ranked){
@@ -540,18 +541,28 @@ function buildZapierPayload(ranked){
     payload[`top_gift_${i+1}`] = g.name;
     payload[`top_gift_${i+1}_score`] = g.score;
   });
-  payload.all_scores_json = JSON.stringify(ranked.map(g => ({ gift: g.name, score: g.score })));
+  // Every gift as its own individual field (e.g. "score_Teaching": 12),
+  // rather than one JSON blob, so each value lands in its own Zapier field.
+  ranked.forEach(g => {
+    payload[`score_${g.name}`] = g.score;
+  });
   return payload;
 }
 
 function sendToZapier(ranked){
   // Fire-and-forget: no-cors means the browser won't expose (or wait on)
   // the response, and nothing is shown to the user either way.
+  // Sent as individual form fields (application/x-www-form-urlencoded)
+  // instead of a single JSON body, so each value arrives as its own field.
+  const params = new URLSearchParams();
+  Object.entries(buildZapierPayload(ranked)).forEach(([key, value]) => {
+    params.append(key, value);
+  });
   fetch(ZAPIER_WEBHOOK_URL, {
     method: "POST",
     mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(buildZapierPayload(ranked))
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: params.toString()
   }).catch(() => {});
 }
 
