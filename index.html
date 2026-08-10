@@ -541,10 +541,17 @@ function buildZapierPayload(ranked){
     payload[`top_gift_${i+1}`] = g.name;
     payload[`top_gift_${i+1}_score`] = g.score;
   });
-  // Every gift as its own individual field (e.g. "score_Teaching": 12),
-  // rather than one JSON blob, so each value lands in its own Zapier field.
-  ranked.forEach(g => {
-    payload[`score_${g.name}`] = g.score;
+  // One field per gift, keyed by its stable id (e.g. "score_leadership",
+  // "score_exhortation") rather than its display name. Display names like
+  // "Prophecy (Truth-Telling)" contain spaces/parentheses that come through
+  // inconsistently as form-field keys, which is what was breaking the
+  // Google Sheets column mapping. Looping over GIFTS (not "ranked") also
+  // guarantees the exact same 16 field names, in the exact same order,
+  // on every single submission — required for Zapier's field mapping to
+  // stay stable from one response to the next.
+  GIFTS.forEach(gift => {
+    const scored = ranked.find(g => g.id === gift.id);
+    payload[`score_${gift.id}`] = scored.score;
   });
   return payload;
 }
