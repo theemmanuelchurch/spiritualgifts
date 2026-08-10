@@ -1,613 +1,597 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; min-height: 15.0px}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spiritual Gifts Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-2:#f0f0f0;
+    --panel:#ffffff;
+    --panel-2:#ffffff;
+    --ink:#111111;
+    --muted:#5c5c5c;
+    --gray-900:#000000;
+    --gray-700:#3a3a3a;
+    --gray-500:#6b6b6b;
+    --gray-300:#a8a8a8;
+    --gray-150:#dcdcdc;
+    --black:#000000;
+    --white:#ffffff;
+    --line:rgba(0,0,0,0.13);
+    --line-dark:rgba(0,0,0,0.13);
+    font-family:'Montserrat',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:linear-gradient(180deg, var(--bg), var(--bg-2));
+    color:var(--ink);
+    min-height:100vh;
+    padding:32px 16px 64px;
+  }
+  h1,h2,h3,.display{ font-family:'Montserrat',sans-serif; }
+  .wrap{ max-width:760px; margin:0 auto; }
+  .eyebrow{
+    font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--gray-500);
+    text-align:center; margin-bottom:8px; font-weight:600;
+  }
+  .title{ text-align:center; font-size:clamp(28px,5vw,42px); font-weight:600; margin:0 0 6px; color:var(--ink); }
+  .subtitle{ text-align:center; color:var(--muted); font-size:15px; margin:0 auto 32px; max-width:520px; line-height:1.6; }
+
+  .card{
+    background:var(--panel);
+    color:var(--ink);
+    border-radius:18px;
+    padding:36px;
+    border:1px solid var(--line);
+    box-shadow:0 24px 48px -30px rgba(22,21,18,0.25);
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:6px;
+    background:linear-gradient(90deg,var(--gray-900),var(--gray-300) 50%,var(--gray-900));
+  }
+  label.field-label{ display:block; font-size:13px; font-weight:600; color:var(--muted); margin-bottom:6px; letter-spacing:.02em; }
+  input[type=text],input[type=email]{
+    width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--line);
+    background:var(--panel-2); font-family:'Montserrat',sans-serif; font-size:15px; color:var(--ink); margin-bottom:18px;
+  }
+  input:focus{ outline:2px solid var(--gray-900); outline-offset:1px; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media(max-width:520px){ .row2{ grid-template-columns:1fr; } }
+
+  .btn{
+    appearance:none; border:none; cursor:pointer; font-family:'Montserrat',sans-serif; font-weight:600;
+    font-size:15px; padding:13px 22px; border-radius:10px; transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:active{ transform:scale(0.98); }
+  .btn-primary{ background:var(--black); color:var(--white); }
+  .btn-primary:hover{ box-shadow:0 8px 18px -6px rgba(17,17,17,0.4); }
+  .btn-primary:disabled{ opacity:.4; cursor:not-allowed; box-shadow:none; }
+  .btn-ghost{ background:var(--white); color:var(--black); border:1px solid var(--black); }
+  .btn-ghost:hover{ background:rgba(17,17,17,0.06); }
+  .btn-gold{ background:var(--black); color:var(--white); }
+  .btn-gold:hover{ box-shadow:0 8px 18px -6px rgba(17,17,17,0.4); }
+  .btn-row{ display:flex; justify-content:space-between; align-items:center; margin-top:28px; gap:12px; flex-wrap:wrap; }
+
+  .progress-wrap{ margin-bottom:26px; }
+  .progress-track{ height:6px; border-radius:4px; background:var(--line); overflow:hidden; }
+  .progress-fill{ height:100%; background:linear-gradient(90deg,var(--gray-900),var(--gray-500)); transition:width .3s ease; }
+  .progress-label{ font-size:12px; color:var(--muted); margin-top:8px; display:flex; justify-content:space-between; letter-spacing:.02em;}
+
+  .gift-name{ font-size:24px; font-weight:600; margin:0 0 4px; }
+  .gift-def{ color:var(--muted); font-size:14.5px; line-height:1.55; margin:0 0 24px; }
+
+  fieldset{ border:none; padding:0; margin:0 0 22px; }
+  .statement{ font-size:15.5px; line-height:1.5; margin-bottom:10px; font-weight:500; }
+  .scale{ display:flex; gap:6px; }
+  .scale label{
+    flex:1; text-align:center; border:1px solid var(--line); border-radius:9px; padding:9px 4px;
+    font-size:11.5px; color:var(--muted); cursor:pointer; user-select:none; transition:all .15s ease;
+    background:var(--panel-2);
+  }
+  .scale input{ display:none; }
+  .scale input:checked + span{ display:block; }
+  .scale label.checked{ background:var(--black); color:var(--white); border-color:var(--black); }
+  .scale .num{ display:block; font-family:'Montserrat',sans-serif; font-size:16px; font-weight:700; margin-bottom:2px; }
+
+  /* results */
+  .rose{
+    width:220px; height:220px; border-radius:50%; margin:0 auto 22px;
+    position:relative; box-shadow:0 0 0 6px var(--panel-2), 0 0 0 7px var(--line), 0 0 0 9px var(--gray-900), 0 20px 40px -18px rgba(22,21,18,0.35);
+  }
+  .rose-center{
+    position:absolute; inset:34%; border-radius:50%; background:var(--panel-2);
+    display:flex; align-items:center; justify-content:center; text-align:center; flex-direction:column;
+    box-shadow:inset 0 0 0 1px var(--line);
+  }
+  .rose-center .n{ font-family:'Montserrat',sans-serif; font-weight:700; font-size:15px; line-height:1.2; }
+  .rose-legend{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px 16px; margin-bottom:30px; }
+  .rose-legend .item{ display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--muted); }
+  .rose-legend .dot{ width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+  .gift-result-card{
+    border:1px solid var(--line); border-radius:14px; padding:22px 24px; margin-bottom:16px; background:var(--panel-2);
+  }
+  .gift-result-card .rank{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--gray-500); font-weight:700; margin-bottom:6px;}
+  .gift-result-card h3{ margin:0 0 6px; font-size:20px; }
+  .gift-result-card .score-bar-track{ height:8px; background:var(--line); border-radius:4px; overflow:hidden; margin:10px 0 14px; }
+  .gift-result-card .score-bar-fill{ height:100%; background:linear-gradient(90deg,var(--gray-900),var(--gray-500)); border-radius:4px; }
+  .meta-row{ display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 12px; }
+  .chip{ background:rgba(0,0,0,0.06); color:var(--ink); font-size:11.5px; padding:4px 10px; border-radius:999px; font-weight:600; }
+  .section-label{ font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); font-weight:700; margin:14px 0 6px; }
+  .gift-result-card ul{ margin:0; padding-left:18px; }
+  .gift-result-card li{ font-size:14px; line-height:1.6; margin-bottom:3px; }
+  .scripture-ref{ font-style:italic; color:var(--muted); font-size:13.5px; }
+
+  .full-bar-row{ display:grid; grid-template-columns:150px 1fr 34px; align-items:center; gap:10px; margin-bottom:9px; }
+  .full-bar-row .lbl{ font-size:13px; font-weight:600; text-align:right; }
+  .full-bar-track{ height:9px; background:var(--line); border-radius:5px; overflow:hidden; }
+  .full-bar-fill{ height:100%; border-radius:5px; }
+  .full-bar-row .pct{ font-size:12px; color:var(--muted); }
+
+  .export-box{ border:1px dashed var(--line); border-radius:14px; padding:22px; margin-top:8px; background:var(--bg); }
+  .export-status{ font-size:13.5px; margin-top:12px; line-height:1.5; }
+  .export-status.ok{ color:var(--ink); font-weight:600; }
+  .export-status.err{ color:var(--ink); font-weight:600; }
+  .export-status.pending{ color:var(--muted); }
+  .spinner{ display:inline-block; width:12px; height:12px; border:2px solid var(--line); border-top-color:var(--gray-900); border-radius:50%; animation:spin .7s linear infinite; margin-right:6px; vertical-align:-2px;}
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .footer-note{ text-align:center; font-size:12px; color:var(--muted); margin-top:26px; line-height:1.6; }
+  a{ color:var(--ink); text-decoration:underline; }
+  .intro-verse{ text-align:center; color:var(--muted); font-style:italic; font-size:13.5px; margin-bottom:26px; }
+</style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1">&lt;title&gt;Spiritual Gifts Assessment&lt;/title&gt;</p>
-<p class="p1">&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</p>
-<p class="p1">&lt;link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"&gt;</p>
-<p class="p1">&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>:root{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--bg:#ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--bg-2:#f0f0f0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--panel:#ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--panel-2:#ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--ink:#111111;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--muted:#5c5c5c;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--gray-900:#000000;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--gray-700:#3a3a3a;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--gray-500:#6b6b6b;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--gray-300:#a8a8a8;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--gray-150:#dcdcdc;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--black:#000000;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--white:#ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--line:rgba(0,0,0,0.13);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--line-dark:rgba(0,0,0,0.13);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family:'Montserrat',sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>*{box-sizing:border-box;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>body{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin:0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:linear-gradient(180deg, var(--bg), var(--bg-2));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--ink);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>min-height:100vh;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:32px 16px 64px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>h1,h2,h3,.display{ font-family:'Montserrat',sans-serif; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.wrap{ max-width:760px; margin:0 auto; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.eyebrow{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--gray-500);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align:center; margin-bottom:8px; font-weight:600;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.title{ text-align:center; font-size:clamp(28px,5vw,42px); font-weight:600; margin:0 0 6px; color:var(--ink); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.subtitle{ text-align:center; color:var(--muted); font-size:15px; margin:0 auto 32px; max-width:520px; line-height:1.6; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.card{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--panel);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color:var(--ink);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius:18px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding:36px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>box-shadow:0 24px 48px -30px rgba(22,21,18,0.25);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position:relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>overflow:hidden;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.card::before{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>content:"";</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position:absolute; top:0; left:0; right:0; height:6px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:linear-gradient(90deg,var(--gray-900),var(--gray-300) 50%,var(--gray-900));</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>label.field-label{ display:block; font-size:13px; font-weight:600; color:var(--muted); margin-bottom:6px; letter-spacing:.02em; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>input[type=text],input[type=email]{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--panel-2); font-family:'Montserrat',sans-serif; font-size:15px; color:var(--ink); margin-bottom:18px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>input:focus{ outline:2px solid var(--gray-900); outline-offset:1px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.row2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>@media(max-width:520px){ .row2{ grid-template-columns:1fr; } }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.btn{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>appearance:none; border:none; cursor:pointer; font-family:'Montserrat',sans-serif; font-weight:600;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:15px; padding:13px 22px; border-radius:10px; transition:transform .15s ease, box-shadow .15s ease;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.btn:active{ transform:scale(0.98); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.btn-primary{ background:var(--black); color:var(--white); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.btn-primary:hover{ box-shadow:0 8px 18px -6px rgba(17,17,17,0.4); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.btn-primary:disabled{ opacity:.4; cursor:not-allowed; box-shadow:none; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.btn-ghost{ background:var(--white); color:var(--black); border:1px solid var(--black); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.btn-ghost:hover{ background:rgba(17,17,17,0.06); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.btn-gold{ background:var(--black); color:var(--white); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.btn-gold:hover{ box-shadow:0 8px 18px -6px rgba(17,17,17,0.4); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.btn-row{ display:flex; justify-content:space-between; align-items:center; margin-top:28px; gap:12px; flex-wrap:wrap; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.progress-wrap{ margin-bottom:26px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.progress-track{ height:6px; border-radius:4px; background:var(--line); overflow:hidden; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.progress-fill{ height:100%; background:linear-gradient(90deg,var(--gray-900),var(--gray-500)); transition:width .3s ease; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.progress-label{ font-size:12px; color:var(--muted); margin-top:8px; display:flex; justify-content:space-between; letter-spacing:.02em;}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gift-name{ font-size:24px; font-weight:600; margin:0 0 4px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gift-def{ color:var(--muted); font-size:14.5px; line-height:1.55; margin:0 0 24px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>fieldset{ border:none; padding:0; margin:0 0 22px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.statement{ font-size:15.5px; line-height:1.5; margin-bottom:10px; font-weight:500; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.scale{ display:flex; gap:6px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.scale label{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>flex:1; text-align:center; border:1px solid var(--line); border-radius:9px; padding:9px 4px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size:11.5px; color:var(--muted); cursor:pointer; user-select:none; transition:all .15s ease;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:var(--panel-2);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.scale input{ display:none; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.scale input:checked + span{ display:block; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.scale label.checked{ background:var(--black); color:var(--white); border-color:var(--black); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.scale .num{ display:block; font-family:'Montserrat',sans-serif; font-size:16px; font-weight:700; margin-bottom:2px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* results */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.rose{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width:220px; height:220px; border-radius:50%; margin:0 auto 22px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position:relative; box-shadow:0 0 0 6px var(--panel-2), 0 0 0 7px var(--line), 0 0 0 9px var(--gray-900), 0 20px 40px -18px rgba(22,21,18,0.35);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.rose-center{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position:absolute; inset:34%; border-radius:50%; background:var(--panel-2);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display:flex; align-items:center; justify-content:center; text-align:center; flex-direction:column;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>box-shadow:inset 0 0 0 1px var(--line);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.rose-center .n{ font-family:'Montserrat',sans-serif; font-weight:700; font-size:15px; line-height:1.2; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.rose-legend{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px 16px; margin-bottom:30px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.rose-legend .item{ display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--muted); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.rose-legend .dot{ width:10px; height:10px; border-radius:50%; flex-shrink:0; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gift-result-card{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border:1px solid var(--line); border-radius:14px; padding:22px 24px; margin-bottom:16px; background:var(--panel-2);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gift-result-card .rank{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--gray-500); font-weight:700; margin-bottom:6px;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gift-result-card h3{ margin:0 0 6px; font-size:20px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gift-result-card .score-bar-track{ height:8px; background:var(--line); border-radius:4px; overflow:hidden; margin:10px 0 14px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gift-result-card .score-bar-fill{ height:100%; background:linear-gradient(90deg,var(--gray-900),var(--gray-500)); border-radius:4px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.meta-row{ display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 12px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.chip{ background:rgba(0,0,0,0.06); color:var(--ink); font-size:11.5px; padding:4px 10px; border-radius:999px; font-weight:600; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.section-label{ font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); font-weight:700; margin:14px 0 6px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gift-result-card ul{ margin:0; padding-left:18px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gift-result-card li{ font-size:14px; line-height:1.6; margin-bottom:3px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.scripture-ref{ font-style:italic; color:var(--muted); font-size:13.5px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.full-bar-row{ display:grid; grid-template-columns:150px 1fr 34px; align-items:center; gap:10px; margin-bottom:9px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.full-bar-row .lbl{ font-size:13px; font-weight:600; text-align:right; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.full-bar-track{ height:9px; background:var(--line); border-radius:5px; overflow:hidden; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.full-bar-fill{ height:100%; border-radius:5px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.full-bar-row .pct{ font-size:12px; color:var(--muted); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.export-box{ border:1px dashed var(--line); border-radius:14px; padding:22px; margin-top:8px; background:var(--bg); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.export-status{ font-size:13.5px; margin-top:12px; line-height:1.5; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.export-status.ok{ color:var(--ink); font-weight:600; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.export-status.err{ color:var(--ink); font-weight:600; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.export-status.pending{ color:var(--muted); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.spinner{ display:inline-block; width:12px; height:12px; border:2px solid var(--line); border-top-color:var(--gray-900); border-radius:50%; animation:spin .7s linear infinite; margin-right:6px; vertical-align:-2px;}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>@keyframes spin{ to{ transform:rotate(360deg); } }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.footer-note{ text-align:center; font-size:12px; color:var(--muted); margin-top:26px; line-height:1.6; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>a{ color:var(--ink); text-decoration:underline; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.intro-verse{ text-align:center; color:var(--muted); font-style:italic; font-size:13.5px; margin-bottom:26px; }</p>
-<p class="p1">&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1">&lt;div class="wrap"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="eyebrow"&gt;Discover how you're wired to serve&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;h1 class="title"&gt;Spiritual Gifts Assessment&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;p class="subtitle"&gt;A self-scoring tool to help you recognize the gifts God has given you for building up His people — with a full, personalized results report at the end.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="app"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="footer-note"&gt;This assessment is a discernment tool. Confirm what you discover in community, through prayer, and over time. &lt;br&gt; 20 gifts | 80 statements | ~10–15 minutes&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p1">/* ---------------- DATA ---------------- */</p>
-<p class="p1">const GIFTS = [</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"leadership",name:"Leadership",def:"The God-given ability to cast vision, motivate others, and guide a group toward a shared spiritual goal.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I naturally see the big picture and can map out a path to get there.","Others look to me to provide direction when a group feels stuck.","I feel energized when I'm setting vision and motivating a team.","People trust my judgment when decisions need to be made for a group."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"Romans 12:8 · Hebrews 13:17",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Casts and communicates vision clearly","Decisive under pressure","Motivates others toward a shared goal","Comfortable carrying responsibility"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Lead a ministry team or small group","Take ownership of a project that needs direction","Mentor an emerging leader"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"administration",name:"Administration",def:"The ability to organize people, resources, and plans so that ministry runs smoothly and effectively.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I enjoy creating systems and processes that help things run efficiently.","I notice logistical details that others tend to overlook.","I can break a big goal into manageable steps and timelines.","People ask me to help coordinate events or projects."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"1 Corinthians 12:28",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Highly organized and detail-oriented","Turns vision into workable steps","Efficient with time and resources","Dependable follow-through"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Coordinate a ministry event or project","Manage volunteer scheduling","Build simple systems that help a team function"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"teaching",name:"Teaching",def:"The ability to clearly explain and apply biblical truth so that others understand it and grow.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I love studying Scripture and helping others understand it clearly.","I can simplify complex ideas so they make sense to different learners.","People tell me my explanations help concepts \"click\" for them.","I enjoy researching a topic deeply before I share it with others."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"Romans 12:7 · Ephesians 4:11",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Communicates clearly and patiently","Loves in-depth study","Makes truth practical and memorable","Welcomes questions"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Teach a class or small group study","Write devotionals or teaching material","Disciple new believers in the Word"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"wisdom",name:"Wisdom",def:"The ability to apply spiritual truth practically to real-life situations and decisions.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["People come to me for practical guidance when facing hard decisions.","I can see the best course of action in confusing situations.","I naturally connect biblical principles to everyday problems.","My advice tends to help others avoid pitfalls they didn't see coming."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"1 Corinthians 12:8",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Sound, practical judgment","Sought out for counsel","Sees the bigger picture","Applies truth rather than just knowing it"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Offer counsel in a mentoring relationship","Serve on a decision-making team","Walk with someone facing a major crossroads"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"knowledge",name:"Knowledge",def:"The ability to research, understand, and organize truth in ways that inform and strengthen the church.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I enjoy digging deep into Scripture, theology, or research to uncover truth.","I retain and organize information in ways that help others learn.","I like to study carefully before forming an opinion.","People rely on me to know the reasoning behind what we believe."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"1 Corinthians 12:8",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Studious and analytical","Loves depth and accuracy","Organizes information well","A trusted resource for facts"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Research for a teaching or leadership team","Write study guides or resources","Answer theological questions within your community"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"prophecy",name:"Prophecy (Truth-Telling)",def:"The ability to boldly communicate truth in ways that convict, correct, and call people back to God's standards.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I feel compelled to speak truth even when it's uncomfortable.","I can sense when something isn't aligned with biblical truth and want to address it.","I care more about honesty than about being liked.","I sense I'm meant to call people back to what's right."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"Romans 12:6 · 1 Corinthians 12:10",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Bold and direct","Truth-focused over comfort-focused","Convicting yet purposeful","Willing to say the hard thing"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Serve where honest, courageous feedback is needed","Disciple others with directness and grace","Speak or write on cultural and spiritual issues"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"discernment",name:"Discernment",def:"The ability to distinguish truth from error and recognize the spirit behind words, actions, or teaching.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I can sense when something feels spiritually \"off,\" even if I can't explain why at first.","I'm quick to notice inconsistencies between what someone says and does.","People ask my opinion when they're unsure if something is trustworthy.","I have a strong instinct for character and motive."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"1 Corinthians 12:10 · 1 John 4:1",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Perceptive and intuitive","Protective of truth and community","Cautious before trusting","Reads situations accurately"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Help vet teaching or messaging for a ministry","Serve as a trusted sounding board","Pray over decisions that need clarity"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"exhortation",name:"Exhortation (Encouragement)",def:"The ability to strengthen, comfort, and motivate others toward spiritual growth.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I know how to say the right thing to lift someone's spirits.","I look for practical next steps to help people move forward.","Others describe me as someone who motivates them to keep going.","I love encouraging people who feel discouraged or stuck."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"Romans 12:8",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Positive and hope-giving","Practical, not just sentimental","Motivating presence","Good listener who inspires action"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Mentor someone through a hard season","Write encouragement notes or messages","Lead a support or recovery-focused group"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"shepherding",name:"Shepherding (Pastoring)",def:"The ability to nurture, guide, and care for a group of people over the long term.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I feel responsible for the spiritual wellbeing of people close to me.","I enjoy walking with the same group of people over a long period of time.","I notice when someone is spiritually struggling before they say anything.","People naturally open up to me about personal and spiritual matters."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"Ephesians 4:11 · 1 Peter 5:2",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Nurturing and relational","Protective of those in their care","Patient over the long haul","Trusted with vulnerability"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Lead a small group long-term","Disciple someone one-on-one","Care consistently for a specific ministry family"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"faith",name:"Faith",def:"Unusual confidence in God's promises and power, even without visible evidence.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I can trust God for big things even when circumstances look impossible.","Others are strengthened by watching how I trust God through uncertainty.","I rarely feel discouraged when a step of faith takes a long time to pay off.","I sense God calling me to believe for more than what seems realistic."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"1 Corinthians 12:9",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Bold, confident trust in God","Optimistic under pressure","Prayerful and persistent","Inspires faith in others"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Champion a faith-stretching vision or project","Lead others in prayer for the impossible","Encourage those who are wavering in faith"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"evangelism",name:"Evangelism",def:"The ability to clearly and naturally share the gospel in ways that invite people to respond.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I look for natural ways to bring up faith in everyday conversations.","I feel a burden for people who don't know Jesus.","I can explain the gospel clearly and simply to someone unfamiliar with it.","I get excited about opportunities to share my faith with others."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"Ephesians 4:11",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Outgoing and relational","Gospel-centered conversations come naturally","Bold in sharing personal faith","Burdened for the lost"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Join or lead outreach efforts","Build intentional friendships with non-believers","Share your faith story publicly"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"apostleship",name:"Apostleship (Pioneering)",def:"The ability to pioneer new ministries and establish spiritual work in unreached places or contexts.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I'm drawn to starting new things rather than maintaining what already exists.","I feel called to take the gospel to places or people it hasn't reached.","I adapt easily to new cultures, settings, or unfamiliar environments.","I'm energized by the challenge of building something from nothing."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"1 Corinthians 12:28 · Ephesians 4:11",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Pioneering and entrepreneurial","Culturally adaptable","Mission-minded","Comfortable with ambiguity"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Explore church planting or missions involvement","Start a new ministry initiative","Go on a cross-cultural mission trip"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"service",name:"Service (Helps)",def:"The ability to identify and meet practical needs that support the work of ministry.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I notice practical needs before anyone has to ask.","I'd rather serve behind the scenes than be in front of a crowd.","I feel fulfilled when I've helped make someone else's ministry possible.","I enjoy doing the \"unglamorous\" tasks that keep things running."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"Romans 12:7 · 1 Corinthians 12:28",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Humble and practical","Notices unmet needs","Reliable behind the scenes","Finds joy in supporting others"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Join a hospitality, setup, or logistics team","Serve a ministry leader directly","Quietly meet needs you notice around you"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"mercy",name:"Mercy",def:"The ability to feel and express deep compassion toward those who are hurting.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I'm drawn to people who are suffering, sick, or in crisis.","I feel others' pain deeply, even when I'm not personally affected.","I create safe spaces where hurting people feel understood.","I'm patient with people going through a hard season, even a long one."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"Romans 12:8",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Deeply compassionate","Gentle and non-judgmental","Patient with pain over time","A comforting, safe presence"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Visit the sick, grieving, or imprisoned","Serve in a care or support ministry","Walk closely with someone in crisis"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"giving",name:"Giving",def:"The ability to generously and joyfully contribute resources to further God's work.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I find genuine joy in giving generously, even sacrificially.","I look for ways to fund or resource ministries and needs I believe in.","I manage money carefully so that I can give more freely.","I prefer to give quietly rather than be recognized for it."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"Romans 12:8",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Generous and joyful giver","Resourceful with finances","Strategic about impact","Prefers quiet generosity"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Fund a ministry project or missionary","Give strategically and sacrificially","Teach others about biblical generosity"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"hospitality",name:"Hospitality",def:"The ability to warmly welcome others, making them feel valued, comfortable, and included.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I love opening my home or space to others.","I go out of my way to make newcomers feel welcome.","I pay attention to details that help guests feel cared for.","I enjoy creating an atmosphere where people can connect."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"Romans 12:13 · 1 Peter 4:9",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Warm and welcoming","Detail-conscious host","Makes newcomers feel included","Creates space for connection"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Host a small group or gathering","Welcome newcomers at church","Create environments where community can form"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"healing",name:"Healing",def:"The ability to be used by God as an instrument of physical, emotional, or spiritual restoration.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I have a strong desire to pray for those who are sick or hurting.","I've seen God bring healing in ways I attribute to prayer.","I feel led to pray boldly for physical or emotional restoration.","I believe God still heals today and want to be part of that."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"1 Corinthians 12:9, 28",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Compassionate and faith-filled","Prayerful for restoration","Hope-bringing presence","Bold in intercessory prayer"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Join a prayer or healing ministry","Pray regularly for the sick","Pursue training in prayer ministry"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"miracles",name:"Miracles",def:"Unusual faith that God will work in supernatural, extraordinary ways beyond the natural order.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I believe God can and does intervene in ways that defy explanation.","I've prayed boldly for breakthroughs others thought were unrealistic.","I sense God inviting me to trust Him for the impossible.","I'm drawn to situations that require more than human effort to resolve."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"1 Corinthians 12:10, 28",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Bold, expectant faith","Prayerful in impossible situations","Unwavering trust in God's power","Draws others toward greater faith"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Pray boldly over breakthrough situations","Support faith-stretching ministry initiatives","Encourage others toward greater expectant faith"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"intercession",name:"Intercession",def:"Passion and persistence in prayer on behalf of others.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I feel drawn to pray for extended periods, even when it's just me and God.","I sense specific burdens to pray for people or situations.","I keep praying for a need long after others have moved on.","Prayer feels like one of the most natural ways I connect with God."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"Colossians 4:12 · James 5:16",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Persistent in prayer","Carries burdens for others","Faithful over the long term","Deeply connected to God through prayer"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Join or start a prayer ministry","Commit to praying regularly for specific people or needs","Pray over your church's leaders and mission"]},</p>
-<p class="p1"><span class="Apple-converted-space"> </span>{id:"craftsmanship",name:"Craftsmanship &amp; Creativity",def:"The ability to use artistic, technical, or creative skill to serve and strengthen ministry.",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>statements:["I enjoy using artistic or technical skills to serve a bigger purpose.","I notice how design, beauty, or craftsmanship can strengthen worship or ministry.","I like building, designing, or creating things with my hands or skills.","I feel closest to God when I'm creating something."],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>scripture:"Exodus 31:3-5 · 1 Corinthians 12:28",</p>
-<p class="p1"><span class="Apple-converted-space">  </span>characteristics:["Skilled and creative","Detail-oriented craftsmanship","Purpose-driven in creating","Sees beauty as worship"],</p>
-<p class="p1"><span class="Apple-converted-space">  </span>actions:["Serve on a creative, media, or production team","Use professional or artistic skills for a ministry project","Design or build something that serves the church"]},</p>
-<p class="p1">];</p>
-<p class="p2"><br></p>
-<p class="p1">const SCALE = [</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{v:0, label:"Not like me"},</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{v:1, label:"Rarely"},</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{v:2, label:"Sometimes"},</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{v:3, label:"Often"},</p>
-<p class="p1"><span class="Apple-converted-space">  </span>{v:4, label:"Consistently"},</p>
-<p class="p1">];</p>
-<p class="p2"><br></p>
-<p class="p1">const WHEEL_COLORS = ["#000000","#333333","#5c5c5c","#858585","#adadad"];</p>
-<p class="p2"><br></p>
-<p class="p1">/* ---------------- STATE ---------------- */</p>
-<p class="p1">const BATCH_SIZE = 5;</p>
-<p class="p2"><br></p>
-<p class="p1">let state = {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>stage: "intro", // intro | quiz | results</p>
-<p class="p1"><span class="Apple-converted-space">  </span>page: 0, // batch index within the shuffled question list</p>
-<p class="p1"><span class="Apple-converted-space">  </span>order: [], // shuffled flat list of {giftId, si} built at quiz start</p>
-<p class="p1"><span class="Apple-converted-space">  </span>profile: { firstName:"", lastName:"", email:"" },</p>
-<p class="p1"><span class="Apple-converted-space">  </span>answers: {}, // giftId -&gt; [a,b,c,d]</p>
-<p class="p1"><span class="Apple-converted-space">  </span>exportStatus: null, // null | 'pending' | 'ok' | 'err'</p>
-<p class="p1"><span class="Apple-converted-space">  </span>exportMessage: "",</p>
-<p class="p1">};</p>
-<p class="p2"><br></p>
-<p class="p1">GIFTS.forEach(g =&gt; { state.answers[g.id] = [null,null,null,null]; });</p>
-<p class="p2"><br></p>
-<p class="p1">function buildShuffledOrder(){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const flat = [];</p>
-<p class="p1"><span class="Apple-converted-space">  </span>GIFTS.forEach(g =&gt; g.statements.forEach((s, si) =&gt; flat.push({ giftId: g.id, si, text: s })));</p>
-<p class="p1"><span class="Apple-converted-space">  </span>// Fisher–Yates shuffle so statements appear in random order, never grouped by gift</p>
-<p class="p1"><span class="Apple-converted-space">  </span>for(let i = flat.length - 1; i &gt; 0; i--){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const j = Math.floor(Math.random() * (i + 1));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>[flat[i], flat[j]] = [flat[j], flat[i]];</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>return flat;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">const app = document.getElementById('app');</p>
-<p class="p2"><br></p>
-<p class="p1">/* ---------------- RENDER: INTRO ---------------- */</p>
-<p class="p1">function renderIntro(){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>app.innerHTML = `</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="intro-verse"&gt;"There are different kinds of gifts, but the same Spirit distributes them." — 1 Corinthians 12:4&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2 style="margin-top:0;"&gt;Before you begin&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p style="color:var(--muted); font-size:14.5px; line-height:1.6;"&gt;Enter your details so we can personalize your report. You'll then rate 80 short statements on a 0–4 scale. Statements are presented one small batch at a time, in random order — not grouped by gift — so nothing signals which gift a statement belongs to. Answer honestly and quickly — first instinct is usually most accurate.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="row2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="field-label" for="firstName"&gt;First name&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="firstName" placeholder="Jordan"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="field-label" for="lastName"&gt;Last name&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="text" id="lastName" placeholder="Rivera"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;label class="field-label" for="email"&gt;Email address&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;input type="email" id="email" placeholder="jordan@example.com" style="margin-bottom:8px;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="btn-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span style="font-size:12px; color:var(--muted);"&gt;Your info is only used for your results report and export.&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn btn-primary" id="startBtn"&gt;Start assessment →&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>`;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('startBtn').onclick = () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const fn = document.getElementById('firstName').value.trim();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const ln = document.getElementById('lastName').value.trim();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const em = document.getElementById('email').value.trim();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if(!fn || !ln || !emailOk){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>alert("Please enter your first name, last name, and a valid email address to continue.");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>state.profile = {firstName:fn, lastName:ln, email:em};</p>
-<p class="p1"><span class="Apple-converted-space">    </span>state.stage = "quiz";</p>
-<p class="p1"><span class="Apple-converted-space">    </span>state.page = 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>state.order = buildShuffledOrder();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>render();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>};</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ---------------- RENDER: QUIZ ---------------- */</p>
-<p class="p1">function renderQuiz(){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const total = state.order.length;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const totalPages = Math.ceil(total / BATCH_SIZE);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const start = state.page * BATCH_SIZE;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const batch = state.order.slice(start, start + BATCH_SIZE);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const pct = Math.round((start / total) * 100);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>const statementsHtml = batch.map((item, idx) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const qNum = start + idx + 1;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const answered = state.answers[item.giftId][item.si];</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return `</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;fieldset&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="statement"&gt;${qNum}. ${item.text}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="scale" data-gift="${item.giftId}" data-si="${item.si}"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>${SCALE.map(opt =&gt; `</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="${answered===opt.v ? 'checked':''}" data-val="${opt.v}"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="radio" name="q-${item.giftId}-${item.si}" value="${opt.v}" ${answered===opt.v?'checked':''}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="num"&gt;${opt.v}&lt;/span&gt;${opt.label}</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>`).join('')}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/fieldset&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>`;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}).join('');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>app.innerHTML = `</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="progress-wrap"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="progress-track"&gt;&lt;div class="progress-fill" style="width:${pct}%"&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="progress-label"&gt;&lt;span&gt;Question ${start+1}–${Math.min(start+BATCH_SIZE, total)} of ${total}&lt;/span&gt;&lt;span&gt;${pct}% complete&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="gift-name" style="font-size:18px;"&gt;Rate each statement&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="gift-def"&gt;How true is each of the following of you? Statements are shown in random order and aren't grouped by topic — answer based on your first instinct.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>${statementsHtml}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="btn-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn btn-ghost" id="prevBtn" ${state.page===0?'disabled':''}&gt;← Back&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn btn-primary" id="nextBtn"&gt;${state.page===totalPages-1 ? 'See my results →' : 'Next →'}&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>`;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>// wire up scale click handlers</p>
-<p class="p1"><span class="Apple-converted-space">  </span>app.querySelectorAll('.scale').forEach(scaleEl =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const giftId = scaleEl.dataset.gift;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const si = parseInt(scaleEl.dataset.si, 10);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>scaleEl.querySelectorAll('label').forEach(lbl =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>lbl.addEventListener('click', () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const val = parseInt(lbl.dataset.val, 10);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>state.answers[giftId][si] = val;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>scaleEl.querySelectorAll('label').forEach(l =&gt; l.classList.remove('checked'));</p>
-<p class="p1"><span class="Apple-converted-space">        </span>lbl.classList.add('checked');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('prevBtn').onclick = () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if(state.page&gt;0){ state.page--; render(); window.scrollTo({top:0,behavior:'smooth'}); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>};</p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('nextBtn').onclick = () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const incomplete = batch.some(item =&gt; state.answers[item.giftId][item.si] === null);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if(incomplete){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>alert("Please rate every statement before continuing.");</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if(state.page &lt; totalPages-1){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>state.page++;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>render();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>state.stage = "results";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>render();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>window.scrollTo({top:0,behavior:'smooth'});</p>
-<p class="p1"><span class="Apple-converted-space">  </span>};</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ---------------- SCORING ---------------- */</p>
-<p class="p1">function computeScores(){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>return GIFTS.map(g =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const sum = state.answers[g.id].reduce((a,b)=&gt;a+b,0);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return { ...g, score: sum, pct: Math.round((sum/16)*100) };</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}).sort((a,b) =&gt; b.score - a.score);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ---------------- RENDER: RESULTS ---------------- */</p>
-<p class="p1">function renderResults(){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const ranked = computeScores();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const top5 = ranked.slice(0,5);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const rest = ranked.slice(5);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const topSum = top5.reduce((a,g)=&gt;a+g.score,0) || 1;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>// conic-gradient wheel</p>
-<p class="p1"><span class="Apple-converted-space">  </span>let acc = 0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const stops = top5.map((g,i) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const start = acc;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const slice = (g.score/topSum)*360;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>acc += slice;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return `${WHEEL_COLORS[i]} ${start}deg ${acc}deg`;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}).join(', ');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>const legendHtml = top5.map((g,i) =&gt; `</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="item"&gt;&lt;span class="dot" style="background:${WHEEL_COLORS[i]}"&gt;&lt;/span&gt;${g.name}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>`).join('');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>const topCardsHtml = top5.map((g,i) =&gt; `</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="gift-result-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="rank"&gt;#${i+1} Primary Gift&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3&gt;${g.name}&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="score-bar-track"&gt;&lt;div class="score-bar-fill" style="width:${g.pct}%; background:${WHEEL_COLORS[i]}"&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p style="margin:0 0 4px; font-size:14.5px; color:var(--muted); line-height:1.55;"&gt;${g.def}&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="meta-row"&gt;&lt;span class="chip scripture-ref"&gt;${g.scripture}&lt;/span&gt;&lt;span class="chip"&gt;Score: ${g.score}/16&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="section-label"&gt;You likely show this by&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;ul&gt;${g.characteristics.map(c=&gt;`&lt;li&gt;${c}&lt;/li&gt;`).join('')}&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="section-label"&gt;Ways to put it into practice&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;ul&gt;${g.actions.map(a=&gt;`&lt;li&gt;${a}&lt;/li&gt;`).join('')}&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>`).join('');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>const fullBarsHtml = ranked.map((g,i) =&gt; `</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="full-bar-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="lbl"&gt;${g.name}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="full-bar-track"&gt;&lt;div class="full-bar-fill" style="width:${g.pct}%; background:${i&lt;5?'var(--gray-900)':'var(--gray-300)'}"&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="pct"&gt;${g.score}&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>`).join('');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>app.innerHTML = `</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="eyebrow" style="text-align:left;"&gt;Results for&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2 style="margin-top:0;"&gt;${state.profile.firstName} ${state.profile.lastName}&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p style="color:var(--muted); font-size:13.5px; margin-top:-8px;"&gt;${state.profile.email}&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="rose" style="background:conic-gradient(${stops});"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="rose-center"&gt;&lt;div class="n"&gt;Top Gift&lt;br&gt;${top5[0].name}&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="rose-legend"&gt;${legendHtml}&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3 style="margin-bottom:4px;"&gt;Your Top 5 Spiritual Gifts&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p style="color:var(--muted); font-size:14px; margin-top:0;"&gt;These scored highest across the assessment — they're likely areas where God has uniquely equipped you to serve.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>${topCardsHtml}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3 style="margin-bottom:4px; margin-top:30px;"&gt;Full Gift Profile&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p style="color:var(--muted); font-size:14px; margin-top:0;"&gt;All 20 gifts, ranked by score (out of 16).&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="margin-top:16px;"&gt;${fullBarsHtml}&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3 style="margin-bottom:4px; margin-top:30px;"&gt;Next Steps&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;ul style="font-size:14.5px; line-height:1.7; color:var(--ink);"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Share these results with a pastor, mentor, or crew leader who knows you — gifts are confirmed in community.&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Look for a low-stakes way to try out your top 1–2 gifts this month.&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Retake this assessment in 6–12 months; gifts often become clearer with use and season of life.&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/ul&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="export-box"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3 style="margin:0 0 6px; font-size:16px;"&gt;Your results are being saved&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p style="color:var(--muted); font-size:13.5px; margin:0 0 14px;"&gt;This submission is automatically sent to our team's system. You can also download a private copy for yourself below.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div style="display:flex; gap:10px; flex-wrap:wrap;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="btn btn-ghost" id="csvBtn"&gt;Download CSV&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="btn btn-ghost" id="printBtn"&gt;Print / Save as PDF&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="exportStatus"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>`;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('csvBtn').onclick = () =&gt; downloadCSV(ranked);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('printBtn').onclick = () =&gt; window.print();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>autoSendToZapier(ranked);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ---------------- CSV EXPORT (local fallback) ---------------- */</p>
-<p class="p1">function downloadCSV(ranked){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const rows = [</p>
-<p class="p1"><span class="Apple-converted-space">    </span>["Timestamp","First Name","Last Name","Email","Gift","Score (out of 16)","Percent","Rank"],</p>
-<p class="p1"><span class="Apple-converted-space">    </span>...ranked.map((g,i) =&gt; [</p>
-<p class="p1"><span class="Apple-converted-space">      </span>new Date().toISOString(), state.profile.firstName, state.profile.lastName, state.profile.email,</p>
-<p class="p1"><span class="Apple-converted-space">      </span>g.name, g.score, g.pct+"%", i+1</p>
-<p class="p1"><span class="Apple-converted-space">    </span>])</p>
-<p class="p1"><span class="Apple-converted-space">  </span>];</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const csv = rows.map(r =&gt; r.map(v =&gt; `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const blob = new Blob([csv], {type:'text/csv'});</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const a = document.createElement('a');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>a.href = URL.createObjectURL(blob);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>a.download = `spiritual-gifts-${state.profile.firstName}-${state.profile.lastName}.csv`.replace(/\s+/g,'-');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>a.click();</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ---------------- ZAPIER WEBHOOK EXPORT ----------------</p>
-<p class="p1"><span class="Apple-converted-space">   </span>Every respondent's results are automatically POSTed as JSON to a fixed</p>
-<p class="p1"><span class="Apple-converted-space">   </span>Zapier "Catch Hook" webhook the moment the results page loads — no setup</p>
-<p class="p1"><span class="Apple-converted-space">   </span>step or user action required. From there the Zap routes it into Google</p>
-<p class="p1"><span class="Apple-converted-space">   </span>Sheets, Airtable, a CRM, email, Slack, etc. */</p>
-<p class="p1">const ZAPIER_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/26703624/46c3a9p/";</p>
-<p class="p2"><br></p>
-<p class="p1">function buildZapierPayload(ranked){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const top5 = ranked.slice(0,5);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const payload = {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>timestamp: new Date().toISOString(),</p>
-<p class="p1"><span class="Apple-converted-space">    </span>first_name: state.profile.firstName,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>last_name: state.profile.lastName,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>email: state.profile.email,</p>
-<p class="p1"><span class="Apple-converted-space">  </span>};</p>
-<p class="p1"><span class="Apple-converted-space">  </span>top5.forEach((g,i) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>payload[`top_gift_${i+1}`] = g.name;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>payload[`top_gift_${i+1}_score`] = g.score;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p1"><span class="Apple-converted-space">  </span>payload.all_scores_json = JSON.stringify(ranked.map(g =&gt; ({ gift: g.name, score: g.score })));</p>
-<p class="p1"><span class="Apple-converted-space">  </span>return payload;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">async function sendToZapier(ranked){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const statusEl = () =&gt; document.getElementById('exportStatus');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>if(statusEl()) statusEl().innerHTML = `&lt;div class="export-status pending"&gt;&lt;span class="spinner"&gt;&lt;/span&gt;Saving your results…&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>try{</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const res = await fetch(ZAPIER_WEBHOOK_URL, {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>method: "POST",</p>
-<p class="p1"><span class="Apple-converted-space">      </span>mode: "cors",</p>
-<p class="p1"><span class="Apple-converted-space">      </span>headers: { "Content-Type": "application/json" },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>body: JSON.stringify(buildZapierPayload(ranked))</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if(!res.ok){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>throw new Error(`Webhook responded with status ${res.status}`);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if(statusEl()) statusEl().innerHTML = `&lt;div class="export-status ok"&gt;✓ Your results have been saved.&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>} catch(err){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if(statusEl()) statusEl().innerHTML = `&lt;div class="export-status err"&gt;Couldn't save your results automatically (${escapeHtml(err.message)}). Please use "Download CSV" below and send it to us directly.&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">// Auto-send exactly once per results view (guards against re-render loops).</p>
-<p class="p1">let zapierSentThisSession = false;</p>
-<p class="p1">function autoSendToZapier(ranked){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>if(zapierSentThisSession) return;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>zapierSentThisSession = true;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>sendToZapier(ranked);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function escapeHtml(str){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const d = document.createElement('div');</p>
-<p class="p1"><span class="Apple-converted-space">  </span>d.textContent = str;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>return d.innerHTML;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ---------------- ROUTER ---------------- */</p>
-<p class="p1">function render(){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>if(state.stage === "intro") renderIntro();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>else if(state.stage === "quiz") renderQuiz();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>else renderResults();</p>
-<p class="p1">}</p>
-<p class="p1">render();</p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+<div class="wrap">
+  <div class="eyebrow">Discover how you're wired to serve</div>
+  <h1 class="title">Spiritual Gifts Assessment</h1>
+  <p class="subtitle">A self-scoring tool to help you recognize the gifts God has given you for building up His people — with a full, personalized results report at the end.</p>
+  <div id="app"></div>
+  <div class="footer-note">This assessment is a discernment tool. Confirm what you discover in community, through prayer, and over time. <br> 20 gifts | 80 statements | ~10–15 minutes</div>
+</div>
+
+<script>
+/* ---------------- DATA ---------------- */
+const GIFTS = [
+ {id:"leadership",name:"Leadership",def:"The God-given ability to cast vision, motivate others, and guide a group toward a shared spiritual goal.",
+  statements:["I naturally see the big picture and can map out a path to get there.","Others look to me to provide direction when a group feels stuck.","I feel energized when I'm setting vision and motivating a team.","People trust my judgment when decisions need to be made for a group."],
+  scripture:"Romans 12:8 · Hebrews 13:17",
+  characteristics:["Casts and communicates vision clearly","Decisive under pressure","Motivates others toward a shared goal","Comfortable carrying responsibility"],
+  actions:["Lead a ministry team or small group","Take ownership of a project that needs direction","Mentor an emerging leader"]},
+ {id:"administration",name:"Administration",def:"The ability to organize people, resources, and plans so that ministry runs smoothly and effectively.",
+  statements:["I enjoy creating systems and processes that help things run efficiently.","I notice logistical details that others tend to overlook.","I can break a big goal into manageable steps and timelines.","People ask me to help coordinate events or projects."],
+  scripture:"1 Corinthians 12:28",
+  characteristics:["Highly organized and detail-oriented","Turns vision into workable steps","Efficient with time and resources","Dependable follow-through"],
+  actions:["Coordinate a ministry event or project","Manage volunteer scheduling","Build simple systems that help a team function"]},
+ {id:"teaching",name:"Teaching",def:"The ability to clearly explain and apply biblical truth so that others understand it and grow.",
+  statements:["I love studying Scripture and helping others understand it clearly.","I can simplify complex ideas so they make sense to different learners.","People tell me my explanations help concepts \"click\" for them.","I enjoy researching a topic deeply before I share it with others."],
+  scripture:"Romans 12:7 · Ephesians 4:11",
+  characteristics:["Communicates clearly and patiently","Loves in-depth study","Makes truth practical and memorable","Welcomes questions"],
+  actions:["Teach a class or small group study","Write devotionals or teaching material","Disciple new believers in the Word"]},
+ {id:"wisdom",name:"Wisdom",def:"The ability to apply spiritual truth practically to real-life situations and decisions.",
+  statements:["People come to me for practical guidance when facing hard decisions.","I can see the best course of action in confusing situations.","I naturally connect biblical principles to everyday problems.","My advice tends to help others avoid pitfalls they didn't see coming."],
+  scripture:"1 Corinthians 12:8",
+  characteristics:["Sound, practical judgment","Sought out for counsel","Sees the bigger picture","Applies truth rather than just knowing it"],
+  actions:["Offer counsel in a mentoring relationship","Serve on a decision-making team","Walk with someone facing a major crossroads"]},
+ {id:"knowledge",name:"Knowledge",def:"The ability to research, understand, and organize truth in ways that inform and strengthen the church.",
+  statements:["I enjoy digging deep into Scripture, theology, or research to uncover truth.","I retain and organize information in ways that help others learn.","I like to study carefully before forming an opinion.","People rely on me to know the reasoning behind what we believe."],
+  scripture:"1 Corinthians 12:8",
+  characteristics:["Studious and analytical","Loves depth and accuracy","Organizes information well","A trusted resource for facts"],
+  actions:["Research for a teaching or leadership team","Write study guides or resources","Answer theological questions within your community"]},
+ {id:"prophecy",name:"Prophecy (Truth-Telling)",def:"The ability to boldly communicate truth in ways that convict, correct, and call people back to God's standards.",
+  statements:["I feel compelled to speak truth even when it's uncomfortable.","I can sense when something isn't aligned with biblical truth and want to address it.","I care more about honesty than about being liked.","I sense I'm meant to call people back to what's right."],
+  scripture:"Romans 12:6 · 1 Corinthians 12:10",
+  characteristics:["Bold and direct","Truth-focused over comfort-focused","Convicting yet purposeful","Willing to say the hard thing"],
+  actions:["Serve where honest, courageous feedback is needed","Disciple others with directness and grace","Speak or write on cultural and spiritual issues"]},
+ {id:"discernment",name:"Discernment",def:"The ability to distinguish truth from error and recognize the spirit behind words, actions, or teaching.",
+  statements:["I can sense when something feels spiritually \"off,\" even if I can't explain why at first.","I'm quick to notice inconsistencies between what someone says and does.","People ask my opinion when they're unsure if something is trustworthy.","I have a strong instinct for character and motive."],
+  scripture:"1 Corinthians 12:10 · 1 John 4:1",
+  characteristics:["Perceptive and intuitive","Protective of truth and community","Cautious before trusting","Reads situations accurately"],
+  actions:["Help vet teaching or messaging for a ministry","Serve as a trusted sounding board","Pray over decisions that need clarity"]},
+ {id:"exhortation",name:"Exhortation (Encouragement)",def:"The ability to strengthen, comfort, and motivate others toward spiritual growth.",
+  statements:["I know how to say the right thing to lift someone's spirits.","I look for practical next steps to help people move forward.","Others describe me as someone who motivates them to keep going.","I love encouraging people who feel discouraged or stuck."],
+  scripture:"Romans 12:8",
+  characteristics:["Positive and hope-giving","Practical, not just sentimental","Motivating presence","Good listener who inspires action"],
+  actions:["Mentor someone through a hard season","Write encouragement notes or messages","Lead a support or recovery-focused group"]},
+ {id:"shepherding",name:"Shepherding (Pastoring)",def:"The ability to nurture, guide, and care for a group of people over the long term.",
+  statements:["I feel responsible for the spiritual wellbeing of people close to me.","I enjoy walking with the same group of people over a long period of time.","I notice when someone is spiritually struggling before they say anything.","People naturally open up to me about personal and spiritual matters."],
+  scripture:"Ephesians 4:11 · 1 Peter 5:2",
+  characteristics:["Nurturing and relational","Protective of those in their care","Patient over the long haul","Trusted with vulnerability"],
+  actions:["Lead a small group long-term","Disciple someone one-on-one","Care consistently for a specific ministry family"]},
+ {id:"faith",name:"Faith",def:"Unusual confidence in God's promises and power, even without visible evidence.",
+  statements:["I can trust God for big things even when circumstances look impossible.","Others are strengthened by watching how I trust God through uncertainty.","I rarely feel discouraged when a step of faith takes a long time to pay off.","I sense God calling me to believe for more than what seems realistic."],
+  scripture:"1 Corinthians 12:9",
+  characteristics:["Bold, confident trust in God","Optimistic under pressure","Prayerful and persistent","Inspires faith in others"],
+  actions:["Champion a faith-stretching vision or project","Lead others in prayer for the impossible","Encourage those who are wavering in faith"]},
+ {id:"evangelism",name:"Evangelism",def:"The ability to clearly and naturally share the gospel in ways that invite people to respond.",
+  statements:["I look for natural ways to bring up faith in everyday conversations.","I feel a burden for people who don't know Jesus.","I can explain the gospel clearly and simply to someone unfamiliar with it.","I get excited about opportunities to share my faith with others."],
+  scripture:"Ephesians 4:11",
+  characteristics:["Outgoing and relational","Gospel-centered conversations come naturally","Bold in sharing personal faith","Burdened for the lost"],
+  actions:["Join or lead outreach efforts","Build intentional friendships with non-believers","Share your faith story publicly"]},
+ {id:"apostleship",name:"Apostleship (Pioneering)",def:"The ability to pioneer new ministries and establish spiritual work in unreached places or contexts.",
+  statements:["I'm drawn to starting new things rather than maintaining what already exists.","I feel called to take the gospel to places or people it hasn't reached.","I adapt easily to new cultures, settings, or unfamiliar environments.","I'm energized by the challenge of building something from nothing."],
+  scripture:"1 Corinthians 12:28 · Ephesians 4:11",
+  characteristics:["Pioneering and entrepreneurial","Culturally adaptable","Mission-minded","Comfortable with ambiguity"],
+  actions:["Explore church planting or missions involvement","Start a new ministry initiative","Go on a cross-cultural mission trip"]},
+ {id:"service",name:"Service (Helps)",def:"The ability to identify and meet practical needs that support the work of ministry.",
+  statements:["I notice practical needs before anyone has to ask.","I'd rather serve behind the scenes than be in front of a crowd.","I feel fulfilled when I've helped make someone else's ministry possible.","I enjoy doing the \"unglamorous\" tasks that keep things running."],
+  scripture:"Romans 12:7 · 1 Corinthians 12:28",
+  characteristics:["Humble and practical","Notices unmet needs","Reliable behind the scenes","Finds joy in supporting others"],
+  actions:["Join a hospitality, setup, or logistics team","Serve a ministry leader directly","Quietly meet needs you notice around you"]},
+ {id:"mercy",name:"Mercy",def:"The ability to feel and express deep compassion toward those who are hurting.",
+  statements:["I'm drawn to people who are suffering, sick, or in crisis.","I feel others' pain deeply, even when I'm not personally affected.","I create safe spaces where hurting people feel understood.","I'm patient with people going through a hard season, even a long one."],
+  scripture:"Romans 12:8",
+  characteristics:["Deeply compassionate","Gentle and non-judgmental","Patient with pain over time","A comforting, safe presence"],
+  actions:["Visit the sick, grieving, or imprisoned","Serve in a care or support ministry","Walk closely with someone in crisis"]},
+ {id:"giving",name:"Giving",def:"The ability to generously and joyfully contribute resources to further God's work.",
+  statements:["I find genuine joy in giving generously, even sacrificially.","I look for ways to fund or resource ministries and needs I believe in.","I manage money carefully so that I can give more freely.","I prefer to give quietly rather than be recognized for it."],
+  scripture:"Romans 12:8",
+  characteristics:["Generous and joyful giver","Resourceful with finances","Strategic about impact","Prefers quiet generosity"],
+  actions:["Fund a ministry project or missionary","Give strategically and sacrificially","Teach others about biblical generosity"]},
+ {id:"hospitality",name:"Hospitality",def:"The ability to warmly welcome others, making them feel valued, comfortable, and included.",
+  statements:["I love opening my home or space to others.","I go out of my way to make newcomers feel welcome.","I pay attention to details that help guests feel cared for.","I enjoy creating an atmosphere where people can connect."],
+  scripture:"Romans 12:13 · 1 Peter 4:9",
+  characteristics:["Warm and welcoming","Detail-conscious host","Makes newcomers feel included","Creates space for connection"],
+  actions:["Host a small group or gathering","Welcome newcomers at church","Create environments where community can form"]},
+ {id:"healing",name:"Healing",def:"The ability to be used by God as an instrument of physical, emotional, or spiritual restoration.",
+  statements:["I have a strong desire to pray for those who are sick or hurting.","I've seen God bring healing in ways I attribute to prayer.","I feel led to pray boldly for physical or emotional restoration.","I believe God still heals today and want to be part of that."],
+  scripture:"1 Corinthians 12:9, 28",
+  characteristics:["Compassionate and faith-filled","Prayerful for restoration","Hope-bringing presence","Bold in intercessory prayer"],
+  actions:["Join a prayer or healing ministry","Pray regularly for the sick","Pursue training in prayer ministry"]},
+ {id:"miracles",name:"Miracles",def:"Unusual faith that God will work in supernatural, extraordinary ways beyond the natural order.",
+  statements:["I believe God can and does intervene in ways that defy explanation.","I've prayed boldly for breakthroughs others thought were unrealistic.","I sense God inviting me to trust Him for the impossible.","I'm drawn to situations that require more than human effort to resolve."],
+  scripture:"1 Corinthians 12:10, 28",
+  characteristics:["Bold, expectant faith","Prayerful in impossible situations","Unwavering trust in God's power","Draws others toward greater faith"],
+  actions:["Pray boldly over breakthrough situations","Support faith-stretching ministry initiatives","Encourage others toward greater expectant faith"]},
+ {id:"intercession",name:"Intercession",def:"Passion and persistence in prayer on behalf of others.",
+  statements:["I feel drawn to pray for extended periods, even when it's just me and God.","I sense specific burdens to pray for people or situations.","I keep praying for a need long after others have moved on.","Prayer feels like one of the most natural ways I connect with God."],
+  scripture:"Colossians 4:12 · James 5:16",
+  characteristics:["Persistent in prayer","Carries burdens for others","Faithful over the long term","Deeply connected to God through prayer"],
+  actions:["Join or start a prayer ministry","Commit to praying regularly for specific people or needs","Pray over your church's leaders and mission"]},
+ {id:"craftsmanship",name:"Craftsmanship & Creativity",def:"The ability to use artistic, technical, or creative skill to serve and strengthen ministry.",
+  statements:["I enjoy using artistic or technical skills to serve a bigger purpose.","I notice how design, beauty, or craftsmanship can strengthen worship or ministry.","I like building, designing, or creating things with my hands or skills.","I feel closest to God when I'm creating something."],
+  scripture:"Exodus 31:3-5 · 1 Corinthians 12:28",
+  characteristics:["Skilled and creative","Detail-oriented craftsmanship","Purpose-driven in creating","Sees beauty as worship"],
+  actions:["Serve on a creative, media, or production team","Use professional or artistic skills for a ministry project","Design or build something that serves the church"]},
+];
+
+const SCALE = [
+  {v:0, label:"Not like me"},
+  {v:1, label:"Rarely"},
+  {v:2, label:"Sometimes"},
+  {v:3, label:"Often"},
+  {v:4, label:"Consistently"},
+];
+
+const WHEEL_COLORS = ["#000000","#333333","#5c5c5c","#858585","#adadad"];
+
+/* ---------------- STATE ---------------- */
+const BATCH_SIZE = 5;
+
+let state = {
+  stage: "intro", // intro | quiz | results
+  page: 0, // batch index within the shuffled question list
+  order: [], // shuffled flat list of {giftId, si} built at quiz start
+  profile: { firstName:"", lastName:"", email:"" },
+  answers: {}, // giftId -> [a,b,c,d]
+  exportStatus: null, // null | 'pending' | 'ok' | 'err'
+  exportMessage: "",
+};
+
+GIFTS.forEach(g => { state.answers[g.id] = [null,null,null,null]; });
+
+function buildShuffledOrder(){
+  const flat = [];
+  GIFTS.forEach(g => g.statements.forEach((s, si) => flat.push({ giftId: g.id, si, text: s })));
+  // Fisher–Yates shuffle so statements appear in random order, never grouped by gift
+  for(let i = flat.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [flat[i], flat[j]] = [flat[j], flat[i]];
+  }
+  return flat;
+}
+
+const app = document.getElementById('app');
+
+/* ---------------- RENDER: INTRO ---------------- */
+function renderIntro(){
+  app.innerHTML = `
+    <div class="card">
+      <p class="intro-verse">"There are different kinds of gifts, but the same Spirit distributes them." — 1 Corinthians 12:4</p>
+      <h2 style="margin-top:0;">Before you begin</h2>
+      <p style="color:var(--muted); font-size:14.5px; line-height:1.6;">Enter your details so we can personalize your report. You'll then rate 80 short statements on a 0–4 scale. Statements are presented one small batch at a time, in random order — not grouped by gift — so nothing signals which gift a statement belongs to. Answer honestly and quickly — first instinct is usually most accurate.</p>
+      <div class="row2">
+        <div>
+          <label class="field-label" for="firstName">First name</label>
+          <input type="text" id="firstName" placeholder="Jordan">
+        </div>
+        <div>
+          <label class="field-label" for="lastName">Last name</label>
+          <input type="text" id="lastName" placeholder="Rivera">
+        </div>
+      </div>
+      <label class="field-label" for="email">Email address</label>
+      <input type="email" id="email" placeholder="jordan@example.com" style="margin-bottom:8px;">
+      <div class="btn-row">
+        <span style="font-size:12px; color:var(--muted);">Your info is only used for your results report and export.</span>
+        <button class="btn btn-primary" id="startBtn">Start assessment →</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('startBtn').onclick = () => {
+    const fn = document.getElementById('firstName').value.trim();
+    const ln = document.getElementById('lastName').value.trim();
+    const em = document.getElementById('email').value.trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);
+    if(!fn || !ln || !emailOk){
+      alert("Please enter your first name, last name, and a valid email address to continue.");
+      return;
+    }
+    state.profile = {firstName:fn, lastName:ln, email:em};
+    state.stage = "quiz";
+    state.page = 0;
+    state.order = buildShuffledOrder();
+    render();
+  };
+}
+
+/* ---------------- RENDER: QUIZ ---------------- */
+function renderQuiz(){
+  const total = state.order.length;
+  const totalPages = Math.ceil(total / BATCH_SIZE);
+  const start = state.page * BATCH_SIZE;
+  const batch = state.order.slice(start, start + BATCH_SIZE);
+  const pct = Math.round((start / total) * 100);
+
+  const statementsHtml = batch.map((item, idx) => {
+    const qNum = start + idx + 1;
+    const answered = state.answers[item.giftId][item.si];
+    return `
+    <fieldset>
+      <div class="statement">${qNum}. ${item.text}</div>
+      <div class="scale" data-gift="${item.giftId}" data-si="${item.si}">
+        ${SCALE.map(opt => `
+          <label class="${answered===opt.v ? 'checked':''}" data-val="${opt.v}">
+            <input type="radio" name="q-${item.giftId}-${item.si}" value="${opt.v}" ${answered===opt.v?'checked':''}>
+            <span class="num">${opt.v}</span>${opt.label}
+          </label>
+        `).join('')}
+      </div>
+    </fieldset>
+  `;
+  }).join('');
+
+  app.innerHTML = `
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-label"><span>Question ${start+1}–${Math.min(start+BATCH_SIZE, total)} of ${total}</span><span>${pct}% complete</span></div>
+    </div>
+    <div class="card">
+      <div class="gift-name" style="font-size:18px;">Rate each statement</div>
+      <p class="gift-def">How true is each of the following of you? Statements are shown in random order and aren't grouped by topic — answer based on your first instinct.</p>
+      ${statementsHtml}
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="prevBtn" ${state.page===0?'disabled':''}>← Back</button>
+        <button class="btn btn-primary" id="nextBtn">${state.page===totalPages-1 ? 'See my results →' : 'Next →'}</button>
+      </div>
+    </div>
+  `;
+
+  // wire up scale click handlers
+  app.querySelectorAll('.scale').forEach(scaleEl => {
+    const giftId = scaleEl.dataset.gift;
+    const si = parseInt(scaleEl.dataset.si, 10);
+    scaleEl.querySelectorAll('label').forEach(lbl => {
+      lbl.addEventListener('click', () => {
+        const val = parseInt(lbl.dataset.val, 10);
+        state.answers[giftId][si] = val;
+        scaleEl.querySelectorAll('label').forEach(l => l.classList.remove('checked'));
+        lbl.classList.add('checked');
+      });
+    });
+  });
+
+  document.getElementById('prevBtn').onclick = () => {
+    if(state.page>0){ state.page--; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+  };
+  document.getElementById('nextBtn').onclick = () => {
+    const incomplete = batch.some(item => state.answers[item.giftId][item.si] === null);
+    if(incomplete){
+      alert("Please rate every statement before continuing.");
+      return;
+    }
+    if(state.page < totalPages-1){
+      state.page++;
+      render();
+    } else {
+      state.stage = "results";
+      render();
+    }
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+}
+
+/* ---------------- SCORING ---------------- */
+function computeScores(){
+  return GIFTS.map(g => {
+    const sum = state.answers[g.id].reduce((a,b)=>a+b,0);
+    return { ...g, score: sum, pct: Math.round((sum/16)*100) };
+  }).sort((a,b) => b.score - a.score);
+}
+
+/* ---------------- RENDER: RESULTS ---------------- */
+function renderResults(){
+  const ranked = computeScores();
+  const top5 = ranked.slice(0,5);
+  const rest = ranked.slice(5);
+  const topSum = top5.reduce((a,g)=>a+g.score,0) || 1;
+
+  // conic-gradient wheel
+  let acc = 0;
+  const stops = top5.map((g,i) => {
+    const start = acc;
+    const slice = (g.score/topSum)*360;
+    acc += slice;
+    return `${WHEEL_COLORS[i]} ${start}deg ${acc}deg`;
+  }).join(', ');
+
+  const legendHtml = top5.map((g,i) => `
+    <div class="item"><span class="dot" style="background:${WHEEL_COLORS[i]}"></span>${g.name}</div>
+  `).join('');
+
+  const topCardsHtml = top5.map((g,i) => `
+    <div class="gift-result-card">
+      <div class="rank">#${i+1} Primary Gift</div>
+      <h3>${g.name}</h3>
+      <div class="score-bar-track"><div class="score-bar-fill" style="width:${g.pct}%; background:${WHEEL_COLORS[i]}"></div></div>
+      <p style="margin:0 0 4px; font-size:14.5px; color:var(--muted); line-height:1.55;">${g.def}</p>
+      <div class="meta-row"><span class="chip scripture-ref">${g.scripture}</span><span class="chip">Score: ${g.score}/16</span></div>
+      <div class="section-label">You likely show this by</div>
+      <ul>${g.characteristics.map(c=>`<li>${c}</li>`).join('')}</ul>
+      <div class="section-label">Ways to put it into practice</div>
+      <ul>${g.actions.map(a=>`<li>${a}</li>`).join('')}</ul>
+    </div>
+  `).join('');
+
+  const fullBarsHtml = ranked.map((g,i) => `
+    <div class="full-bar-row">
+      <div class="lbl">${g.name}</div>
+      <div class="full-bar-track"><div class="full-bar-fill" style="width:${g.pct}%; background:${i<5?'var(--gray-900)':'var(--gray-300)'}"></div></div>
+      <div class="pct">${g.score}</div>
+    </div>
+  `).join('');
+
+  app.innerHTML = `
+    <div class="card">
+      <div class="eyebrow" style="text-align:left;">Results for</div>
+      <h2 style="margin-top:0;">${state.profile.firstName} ${state.profile.lastName}</h2>
+      <p style="color:var(--muted); font-size:13.5px; margin-top:-8px;">${state.profile.email}</p>
+
+      <div class="rose" style="background:conic-gradient(${stops});">
+        <div class="rose-center"><div class="n">Top Gift<br>${top5[0].name}</div></div>
+      </div>
+      <div class="rose-legend">${legendHtml}</div>
+
+      <h3 style="margin-bottom:4px;">Your Top 5 Spiritual Gifts</h3>
+      <p style="color:var(--muted); font-size:14px; margin-top:0;">These scored highest across the assessment — they're likely areas where God has uniquely equipped you to serve.</p>
+      ${topCardsHtml}
+
+      <h3 style="margin-bottom:4px; margin-top:30px;">Full Gift Profile</h3>
+      <p style="color:var(--muted); font-size:14px; margin-top:0;">All 20 gifts, ranked by score (out of 16).</p>
+      <div style="margin-top:16px;">${fullBarsHtml}</div>
+
+      <h3 style="margin-bottom:4px; margin-top:30px;">Next Steps</h3>
+      <ul style="font-size:14.5px; line-height:1.7; color:var(--ink);">
+        <li>Share these results with a pastor, mentor, or crew leader who knows you — gifts are confirmed in community.</li>
+        <li>Look for a low-stakes way to try out your top 1–2 gifts this month.</li>
+        <li>Retake this assessment in 6–12 months; gifts often become clearer with use and season of life.</li>
+      </ul>
+
+      <div class="export-box">
+        <h3 style="margin:0 0 6px; font-size:16px;">Your results are being saved</h3>
+        <p style="color:var(--muted); font-size:13.5px; margin:0 0 14px;">This submission is automatically sent to our team's system. You can also download a private copy for yourself below.</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn btn-ghost" id="csvBtn">Download CSV</button>
+          <button class="btn btn-ghost" id="printBtn">Print / Save as PDF</button>
+        </div>
+        <div id="exportStatus"></div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('csvBtn').onclick = () => downloadCSV(ranked);
+  document.getElementById('printBtn').onclick = () => window.print();
+  autoSendToZapier(ranked);
+}
+
+/* ---------------- CSV EXPORT (local fallback) ---------------- */
+function downloadCSV(ranked){
+  const rows = [
+    ["Timestamp","First Name","Last Name","Email","Gift","Score (out of 16)","Percent","Rank"],
+    ...ranked.map((g,i) => [
+      new Date().toISOString(), state.profile.firstName, state.profile.lastName, state.profile.email,
+      g.name, g.score, g.pct+"%", i+1
+    ])
+  ];
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `spiritual-gifts-${state.profile.firstName}-${state.profile.lastName}.csv`.replace(/\s+/g,'-');
+  a.click();
+}
+
+/* ---------------- ZAPIER WEBHOOK EXPORT ----------------
+   Every respondent's results are automatically POSTed as JSON to a fixed
+   Zapier "Catch Hook" webhook the moment the results page loads — no setup
+   step or user action required. From there the Zap routes it into Google
+   Sheets, Airtable, a CRM, email, Slack, etc. */
+const ZAPIER_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/26703624/46c3a9p/";
+
+function buildZapierPayload(ranked){
+  const top5 = ranked.slice(0,5);
+  const payload = {
+    timestamp: new Date().toISOString(),
+    first_name: state.profile.firstName,
+    last_name: state.profile.lastName,
+    email: state.profile.email,
+  };
+  top5.forEach((g,i) => {
+    payload[`top_gift_${i+1}`] = g.name;
+    payload[`top_gift_${i+1}_score`] = g.score;
+  });
+  payload.all_scores_json = JSON.stringify(ranked.map(g => ({ gift: g.name, score: g.score })));
+  return payload;
+}
+
+async function sendToZapier(ranked){
+  const statusEl = () => document.getElementById('exportStatus');
+  if(statusEl()) statusEl().innerHTML = `<div class="export-status pending"><span class="spinner"></span>Saving your results…</div>`;
+  try{
+    const res = await fetch(ZAPIER_WEBHOOK_URL, {
+      method: "POST",
+      mode: "cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(buildZapierPayload(ranked))
+    });
+    if(!res.ok){
+      throw new Error(`Webhook responded with status ${res.status}`);
+    }
+    if(statusEl()) statusEl().innerHTML = `<div class="export-status ok">✓ Your results have been saved.</div>`;
+  } catch(err){
+    if(statusEl()) statusEl().innerHTML = `<div class="export-status err">Couldn't save your results automatically (${escapeHtml(err.message)}). Please use "Download CSV" below and send it to us directly.</div>`;
+  }
+}
+
+// Auto-send exactly once per results view (guards against re-render loops).
+let zapierSentThisSession = false;
+function autoSendToZapier(ranked){
+  if(zapierSentThisSession) return;
+  zapierSentThisSession = true;
+  sendToZapier(ranked);
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+/* ---------------- ROUTER ---------------- */
+function render(){
+  if(state.stage === "intro") renderIntro();
+  else if(state.stage === "quiz") renderQuiz();
+  else renderResults();
+}
+render();
+</script>
 </body>
 </html>
