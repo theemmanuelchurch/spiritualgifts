@@ -100,20 +100,18 @@
   .scale input{ display:none; }
   .scale label.checked{ background:var(--black); color:var(--white); border-color:var(--black); }
   .scale .num{ display:block; font-family:'Montserrat',sans-serif; font-size:16px; font-weight:700; margin-bottom:2px; }
-  /* results */
-  .rose{
-    width:308px; height:308px; max-width:78vw; max-height:78vw; aspect-ratio:1/1; border-radius:50%; margin:0 auto 22px;
-    position:relative; box-shadow:0 0 0 6px var(--panel-2), 0 0 0 7px var(--line), 0 0 0 9px var(--gray-900), 0 20px 40px -18px rgba(22,21,18,0.35);
+  /* top 5 bar chart (replaces the circular wheel) */
+  .top5-chart{ margin-bottom:28px; }
+  .top5-bar-row{ display:flex; align-items:center; gap:12px; margin-bottom:15px; }
+  .top5-bar-row .rank-dot{
+    width:26px; height:26px; border-radius:50%; color:var(--white); font-size:12px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
   }
-  .rose-center{
-    position:absolute; inset:34%; border-radius:50%; background:var(--panel-2);
-    display:flex; align-items:center; justify-content:center; text-align:center; flex-direction:column;
-    box-shadow:inset 0 0 0 1px var(--line);
-  }
-  .rose-center .n{ font-family:'Montserrat',sans-serif; font-weight:700; font-size:15px; line-height:1.2; }
-  .rose-legend{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px 16px; margin-bottom:30px; }
-  .rose-legend .item{ display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--muted); }
-  .rose-legend .dot{ width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .top5-bar-row .bar-info{ flex:1; min-width:0; }
+  .top5-bar-row .bar-label{ display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; font-size:13.5px; font-weight:600; margin-bottom:5px; }
+  .top5-bar-row .bar-label .bar-score{ color:var(--muted); font-weight:600; font-size:12.5px; white-space:nowrap; }
+  .top5-bar-row .bar-track{ height:14px; background:var(--line); border-radius:7px; overflow:hidden; }
+  .top5-bar-row .bar-fill{ height:100%; border-radius:7px; }
 
   .gift-result-card{
     border:1px solid var(--line); border-radius:14px; padding:22px 24px; margin-bottom:16px; background:var(--panel-2);
@@ -186,12 +184,10 @@
     body{ background:var(--white); padding:0 24px; }
     .card{ box-shadow:none; border:none; padding:16px 0; overflow:visible; }
     .card::before{ display:none; }
-    /* vw units are unreliable in print (they resolve against the paper
-       size or the pre-print viewport depending on the browser), so give
-       the circle a fixed, print-safe size instead of letting it inherit
-       the on-screen responsive sizing. */
-    .rose{ width:2.4in; height:2.4in; max-width:100%; max-height:none; margin:0 auto 14px; page-break-inside:avoid; }
-    .rose-legend{ page-break-inside:avoid; margin-bottom:18px; }
+    .top5-chart, .top5-bar-row{ page-break-inside:avoid; }
+    .top5-bar-row .rank-dot, .top5-bar-row .bar-fill{
+      -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
   }
 </style>
 </head>
@@ -479,19 +475,15 @@ function renderResults(){
   const ranked = computeScores();
   const top5 = ranked.slice(0,5);
   const rest = ranked.slice(5);
-  const topSum = top5.reduce((a,g)=>a+g.score,0) || 1;
 
-  // conic-gradient wheel
-  let acc = 0;
-  const stops = top5.map((g,i) => {
-    const start = acc;
-    const slice = (g.score/topSum)*360;
-    acc += slice;
-    return `${WHEEL_COLORS[i]} ${start}deg ${acc}deg`;
-  }).join(', ');
-
-  const legendHtml = top5.map((g,i) => `
-    <div class="item"><span class="dot" style="background:${WHEEL_COLORS[i]}"></span>${g.name}</div>
+  const top5BarsHtml = top5.map((g,i) => `
+    <div class="top5-bar-row">
+      <div class="rank-dot" style="background:${WHEEL_COLORS[i]}">${i+1}</div>
+      <div class="bar-info">
+        <div class="bar-label"><span>${g.name}</span><span class="bar-score">${g.score}/16</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${g.pct}%; background:${WHEEL_COLORS[i]}"></div></div>
+      </div>
+    </div>
   `).join('');
 
   const topCardsHtml = top5.map((g,i) => `
@@ -522,10 +514,7 @@ function renderResults(){
       <h2 style="margin-top:0;">${state.profile.firstName} ${state.profile.lastName}</h2>
       <p style="color:var(--muted); font-size:13.5px; margin-top:-8px;">${state.profile.email}</p>
 
-      <div class="rose" style="background:conic-gradient(${stops});">
-        <div class="rose-center"><div class="n">Top Gift<br>${top5[0].name}</div></div>
-      </div>
-      <div class="rose-legend">${legendHtml}</div>
+      <div class="top5-chart">${top5BarsHtml}</div>
 
       <h3 style="margin-bottom:4px;">Your Top 5 Spiritual Gifts</h3>
       <p style="color:var(--muted); font-size:14px; margin-top:0;">These scored highest across the assessment — they're likely areas where God has uniquely equipped you to serve.</p>
