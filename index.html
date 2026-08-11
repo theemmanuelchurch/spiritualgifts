@@ -180,13 +180,28 @@
     .gift-result-card{ padding:18px 16px; }
     .gift-name{ font-size:21px; }
   }
+
+  @media print{
+    .page-header, .footer-note, .export-box, .btn-row{ display:none !important; }
+    body{ background:var(--white); padding:0 24px; }
+    .card{ box-shadow:none; border:none; padding:16px 0; overflow:visible; }
+    .card::before{ display:none; }
+    /* vw units are unreliable in print (they resolve against the paper
+       size or the pre-print viewport depending on the browser), so give
+       the circle a fixed, print-safe size instead of letting it inherit
+       the on-screen responsive sizing. */
+    .rose{ width:2.4in; height:2.4in; max-width:100%; max-height:none; margin:0 auto 14px; page-break-inside:avoid; }
+    .rose-legend{ page-break-inside:avoid; margin-bottom:18px; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="eyebrow">Discover how you're wired to serve</div>
-  <h1 class="title">Spiritual Gifts Assessment</h1>
-  <p class="subtitle">A self-scoring tool to help you recognize the gifts God has given you for building up His people — with a full, personalized results report at the end.</p>
+  <div class="page-header">
+    <div class="eyebrow">Discover how you're wired to serve</div>
+    <h1 class="title">Spiritual Gifts Assessment</h1>
+    <p class="subtitle">A self-scoring tool to help you recognize the gifts God has given you for building up His people — with a full, personalized results report at the end.</p>
+  </div>
   <div id="app"></div>
   <div class="footer-note">This assessment is a discernment tool. Confirm what you discover in community, through prayer, and over time. <br> 20 gifts | 80 statements | ~10–15 minutes</div>
 </div>
