@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spiritual Gifts — Internal Results Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-2:#f0f0f0;
+    --panel:#ffffff;
+    --panel-2:#ffffff;
+    --ink:#111111;
+    --muted:#5c5c5c;
+    --gray-900:#000000;
+    --gray-700:#3a3a3a;
+    --gray-500:#6b6b6b;
+    --gray-300:#a8a8a8;
+    --gray-150:#dcdcdc;
+    --black:#000000;
+    --white:#ffffff;
+    --line:rgba(0,0,0,0.13);
+    --line-dark:rgba(0,0,0,0.13);
+    font-family:'Montserrat',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:linear-gradient(180deg, var(--bg), var(--bg-2));
+    color:var(--ink);
+    min-height:100vh;
+    padding:32px 16px 64px;
+  }
+  h1,h2,h3,.display{ font-family:'Montserrat',sans-serif; }
+  .wrap{ max-width:760px; margin:0 auto; }
+  .eyebrow{
+    font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--gray-500);
+    text-align:center; margin-bottom:8px; font-weight:600;
+  }
+  .title{ text-align:center; font-size:clamp(24px,5vw,36px); font-weight:600; margin:0 0 6px; color:var(--ink); }
+  .subtitle{ text-align:center; color:var(--muted); font-size:14px; margin:0 auto 32px; max-width:560px; line-height:1.6; }
+
+  .card{
+    background:var(--panel);
+    color:var(--ink);
+    border-radius:18px;
+    padding:36px;
+    border:1px solid var(--line);
+    box-shadow:0 24px 48px -30px rgba(22,21,18,0.25);
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:6px;
+    background:linear-gradient(90deg,var(--gray-900),var(--gray-300) 50%,var(--gray-900));
+  }
+  label.field-label{ display:block; font-size:13px; font-weight:600; color:var(--muted); margin-bottom:6px; letter-spacing:.02em; }
+  input[type=text],input[type=email],input[type=number],select{
+    width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--line);
+    background:var(--panel-2); font-family:'Montserrat',sans-serif; font-size:15px; color:var(--ink); margin-bottom:18px;
+  }
+  input:focus,select:focus{ outline:2px solid var(--gray-900); outline-offset:1px; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media(max-width:520px){ .row2{ grid-template-columns:1fr; } }
+
+  .btn{
+    appearance:none; border:none; cursor:pointer; font-family:'Montserrat',sans-serif; font-weight:600;
+    font-size:15px; padding:13px 22px; border-radius:10px; transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:active{ transform:scale(0.98); }
+  .btn-primary{ background:var(--black); color:var(--white); }
+  .btn-primary:hover{ box-shadow:0 8px 18px -6px rgba(17,17,17,0.4); }
+  .btn-primary:disabled{ opacity:.4; cursor:not-allowed; box-shadow:none; }
+  .btn-ghost{ background:var(--white); color:var(--black); border:1px solid var(--black); }
+  .btn-ghost:hover{ background:rgba(17,17,17,0.06); }
+  .btn-row{ display:flex; justify-content:space-between; align-items:center; margin-top:28px; gap:12px; flex-wrap:wrap; }
+
+  .gift-row{
+    display:grid; grid-template-columns:28px 1fr 90px; align-items:center; gap:12px;
+    border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:10px; background:var(--panel-2);
+  }
+  .gift-row .rank-badge{
+    width:28px; height:28px; border-radius:50%; background:var(--black); color:var(--white);
+    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; flex-shrink:0;
+  }
+  .gift-row select{ margin-bottom:0; }
+  .gift-row input[type=number]{ margin-bottom:0; text-align:center; }
+  .gift-row .score-wrap{ display:flex; flex-direction:column; }
+  .gift-row .score-wrap span{ font-size:10px; color:var(--muted); text-align:center; margin-top:2px; }
+  .duplicate-warning{ color:#b3261e; font-size:12.5px; margin:-4px 0 14px; }
+
+  /* top 5 bar chart (replaces the circular wheel) */
+  .top5-chart{ margin-bottom:28px; }
+  .top5-bar-row{ display:flex; align-items:center; gap:12px; margin-bottom:15px; }
+  .top5-bar-row .rank-dot{
+    width:26px; height:26px; border-radius:50%; color:var(--white); font-size:12px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .top5-bar-row .bar-info{ flex:1; min-width:0; }
+  .top5-bar-row .bar-label{ display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; font-size:13.5px; font-weight:600; margin-bottom:5px; }
+  .top5-bar-row .bar-label .bar-score{ color:var(--muted); font-weight:600; font-size:12.5px; white-space:nowrap; }
+  .top5-bar-row .bar-track{ height:14px; background:var(--line); border-radius:7px; overflow:hidden; }
+  .top5-bar-row .bar-fill{ height:100%; border-radius:7px; }
+  .gift-result-card{
+    border:1px solid var(--line); border-radius:14px; padding:22px 24px; margin-bottom:16px; background:var(--panel-2);
+  }
+  .gift-result-card .rank{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--gray-500); font-weight:700; margin-bottom:6px;}
+  .gift-result-card h3{ margin:0 0 6px; font-size:20px; }
+  .gift-result-card .score-bar-track{ height:8px; background:var(--line); border-radius:4px; overflow:hidden; margin:10px 0 14px; }
+  .gift-result-card .score-bar-fill{ height:100%; background:linear-gradient(90deg,var(--gray-900),var(--gray-500)); border-radius:4px; }
+  .meta-row{ display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 12px; }
+  .chip{ background:rgba(0,0,0,0.06); color:var(--ink); font-size:11.5px; padding:4px 10px; border-radius:999px; font-weight:600; }
+  .section-label{ font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); font-weight:700; margin:14px 0 6px; }
+  .gift-result-card ul{ margin:0; padding-left:18px; }
+  .gift-result-card li{ font-size:14px; line-height:1.6; margin-bottom:3px; }
+  .scripture-ref{ font-style:italic; color:var(--muted); font-size:13.5px; }
+
+  .footer-note{ text-align:center; font-size:12px; color:var(--muted); margin-top:26px; line-height:1.6; }
+  .intro-verse{ text-align:center; color:var(--muted); font-style:italic; font-size:13.5px; margin-bottom:26px; }
+  .internal-tag{
+    display:inline-block; background:var(--black); color:var(--white); font-size:11px; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase; padding:4px 10px; border-radius:999px; margin-bottom:14px;
+  }
+
+  /* mobile */
+  @media(max-width:600px){
+    body{ padding:20px 12px 48px; }
+    .card{ padding:22px 18px; border-radius:14px; }
+    .gift-row{ grid-template-columns:24px 1fr 70px; gap:8px; padding:10px; }
+    .gift-result-card{ padding:18px 16px; }
+    .gift-name{ font-size:21px; }
+    .btn{ width:100%; text-align:center; }
+    .btn-row{ flex-direction:column-reverse; align-items:stretch; }
+  }
+
+  @media print{
+    .page-header, .footer-note, .btn-row, .internal-tag{ display:none !important; }
+    body{ background:var(--white); padding:0 24px; }
+    .card{ box-shadow:none; border:none; padding:16px 0; overflow:visible; }
+    .card::before{ display:none; }
+    .top5-chart, .top5-bar-row{ page-break-inside:avoid; }
+    .top5-bar-row .rank-dot, .top5-bar-row .bar-fill{
+      -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="page-header">
+    <div class="eyebrow">Internal tool — not for public use</div>
+    <h1 class="title">Spiritual Gifts Results Builder</h1>
+    <p class="subtitle">Manually enter someone's top 5 spiritual gifts (e.g. from a paper form, an interview, or a conversation) and generate the same results report they'd see from the online assessment.</p>
+  </div>
+  <div id="app"></div>
+  <div class="footer-note">This tool does not send data anywhere — nothing is submitted to Zapier or saved. It only renders a preview in your browser.</div>
+</div>
+
+<script>
+/* ---------------- DATA (same 20 gifts as the public assessment) ---------------- */
+const GIFTS = [
+ {id:"leadership",name:"Leadership",def:"The God-given ability to cast vision, motivate others, and guide a group toward a shared spiritual goal.",
+  scripture:"Romans 12:8 · Hebrews 13:17",
+  characteristics:["Casts and communicates vision clearly","Decisive under pressure","Motivates others toward a shared goal","Comfortable carrying responsibility"],
+  actions:["Lead a ministry team or small group","Take ownership of a project that needs direction","Mentor an emerging leader"]},
+ {id:"administration",name:"Administration",def:"The ability to organize people, resources, and plans so that ministry runs smoothly and effectively.",
+  scripture:"1 Corinthians 12:28",
+  characteristics:["Highly organized and detail-oriented","Turns vision into workable steps","Efficient with time and resources","Dependable follow-through"],
+  actions:["Coordinate a ministry event or project","Manage volunteer scheduling","Build simple systems that help a team function"]},
+ {id:"teaching",name:"Teaching",def:"The ability to clearly explain and apply biblical truth so that others understand it and grow.",
+  scripture:"Romans 12:7 · Ephesians 4:11",
+  characteristics:["Communicates clearly and patiently","Loves in-depth study","Makes truth practical and memorable","Welcomes questions"],
+  actions:["Teach a class or small group study","Write devotionals or teaching material","Disciple new believers in the Word"]},
+ {id:"wisdom",name:"Wisdom",def:"The ability to apply spiritual truth practically to real-life situations and decisions.",
+  scripture:"1 Corinthians 12:8",
+  characteristics:["Sound, practical judgment","Sought out for counsel","Sees the bigger picture","Applies truth rather than just knowing it"],
+  actions:["Offer counsel in a mentoring relationship","Serve on a decision-making team","Walk with someone facing a major crossroads"]},
+ {id:"knowledge",name:"Knowledge",def:"The ability to research, understand, and organize truth in ways that inform and strengthen the church.",
+  scripture:"1 Corinthians 12:8",
+  characteristics:["Studious and analytical","Loves depth and accuracy","Organizes information well","A trusted resource for facts"],
+  actions:["Research for a teaching or leadership team","Write study guides or resources","Answer theological questions within your community"]},
+ {id:"prophecy",name:"Prophecy (Truth-Telling)",def:"The ability to boldly communicate truth in ways that convict, correct, and call people back to God's standards.",
+  scripture:"Romans 12:6 · 1 Corinthians 12:10",
+  characteristics:["Bold and direct","Truth-focused over comfort-focused","Convicting yet purposeful","Willing to say the hard thing"],
+  actions:["Serve where honest, courageous feedback is needed","Disciple others with directness and grace","Speak or write on cultural and spiritual issues"]},
+ {id:"discernment",name:"Discernment",def:"The ability to distinguish truth from error and recognize the spirit behind words, actions, or teaching.",
+  scripture:"1 Corinthians 12:10 · 1 John 4:1",
+  characteristics:["Perceptive and intuitive","Protective of truth and community","Cautious before trusting","Reads situations accurately"],
+  actions:["Help vet teaching or messaging for a ministry","Serve as a trusted sounding board","Pray over decisions that need clarity"]},
+ {id:"exhortation",name:"Exhortation (Encouragement)",def:"The ability to strengthen, comfort, and motivate others toward spiritual growth.",
+  scripture:"Romans 12:8",
+  characteristics:["Positive and hope-giving","Practical, not just sentimental","Motivating presence","Good listener who inspires action"],
+  actions:["Mentor someone through a hard season","Write encouragement notes or messages","Lead a support or recovery-focused group"]},
+ {id:"shepherding",name:"Shepherding (Pastoring)",def:"The ability to nurture, guide, and care for a group of people over the long term.",
+  scripture:"Ephesians 4:11 · 1 Peter 5:2",
+  characteristics:["Nurturing and relational","Protective of those in their care","Patient over the long haul","Trusted with vulnerability"],
+  actions:["Lead a small group long-term","Disciple someone one-on-one","Care consistently for a specific ministry family"]},
+ {id:"faith",name:"Faith",def:"Unusual confidence in God's promises and power, even without visible evidence.",
+  scripture:"1 Corinthians 12:9",
+  characteristics:["Bold, confident trust in God","Optimistic under pressure","Prayerful and persistent","Inspires faith in others"],
+  actions:["Champion a faith-stretching vision or project","Lead others in prayer for the impossible","Encourage those who are wavering in faith"]},
+ {id:"evangelism",name:"Evangelism",def:"The ability to clearly and naturally share the gospel in ways that invite people to respond.",
+  scripture:"Ephesians 4:11",
+  characteristics:["Outgoing and relational","Gospel-centered conversations come naturally","Bold in sharing personal faith","Burdened for the lost"],
+  actions:["Join or lead outreach efforts","Build intentional friendships with non-believers","Share your faith story publicly"]},
+ {id:"apostleship",name:"Apostleship (Pioneering)",def:"The ability to pioneer new ministries and establish spiritual work in unreached places or contexts.",
+  scripture:"1 Corinthians 12:28 · Ephesians 4:11",
+  characteristics:["Pioneering and entrepreneurial","Culturally adaptable","Mission-minded","Comfortable with ambiguity"],
+  actions:["Explore church planting or missions involvement","Start a new ministry initiative","Go on a cross-cultural mission trip"]},
+ {id:"service",name:"Service (Helps)",def:"The ability to identify and meet practical needs that support the work of ministry.",
+  scripture:"Romans 12:7 · 1 Corinthians 12:28",
+  characteristics:["Humble and practical","Notices unmet needs","Reliable behind the scenes","Finds joy in supporting others"],
+  actions:["Join a hospitality, setup, or logistics team","Serve a ministry leader directly","Quietly meet needs you notice around you"]},
+ {id:"mercy",name:"Mercy",def:"The ability to feel and express deep compassion toward those who are hurting.",
+  scripture:"Romans 12:8",
+  characteristics:["Deeply compassionate","Gentle and non-judgmental","Patient with pain over time","A comforting, safe presence"],
+  actions:["Visit the sick, grieving, or imprisoned","Serve in a care or support ministry","Walk closely with someone in crisis"]},
+ {id:"giving",name:"Giving",def:"The ability to generously and joyfully contribute resources to further God's work.",
+  scripture:"Romans 12:8",
+  characteristics:["Generous and joyful giver","Resourceful with finances","Strategic about impact","Prefers quiet generosity"],
+  actions:["Fund a ministry project or missionary","Give strategically and sacrificially","Teach others about biblical generosity"]},
+ {id:"hospitality",name:"Hospitality",def:"The ability to warmly welcome others, making them feel valued, comfortable, and included.",
+  scripture:"Romans 12:13 · 1 Peter 4:9",
+  characteristics:["Warm and welcoming","Detail-conscious host","Makes newcomers feel included","Creates space for connection"],
+  actions:["Host a small group or gathering","Welcome newcomers at church","Create environments where community can form"]},
+ {id:"healing",name:"Healing",def:"The ability to be used by God as an instrument of physical, emotional, or spiritual restoration.",
+  scripture:"1 Corinthians 12:9, 28",
+  characteristics:["Compassionate and faith-filled","Prayerful for restoration","Hope-bringing presence","Bold in intercessory prayer"],
+  actions:["Join a prayer or healing ministry","Pray regularly for the sick","Pursue training in prayer ministry"]},
+ {id:"miracles",name:"Miracles",def:"Unusual faith that God will work in supernatural, extraordinary ways beyond the natural order.",
+  scripture:"1 Corinthians 12:10, 28",
+  characteristics:["Bold, expectant faith","Prayerful in impossible situations","Unwavering trust in God's power","Draws others toward greater faith"],
+  actions:["Pray boldly over breakthrough situations","Support faith-stretching ministry initiatives","Encourage others toward greater expectant faith"]},
+ {id:"intercession",name:"Intercession",def:"Passion and persistence in prayer on behalf of others.",
+  scripture:"Colossians 4:12 · James 5:16",
+  characteristics:["Persistent in prayer","Carries burdens for others","Faithful over the long term","Deeply connected to God through prayer"],
+  actions:["Join or start a prayer ministry","Commit to praying regularly for specific people or needs","Pray over your church's leaders and mission"]},
+ {id:"craftsmanship",name:"Craftsmanship & Creativity",def:"The ability to use artistic, technical, or creative skill to serve and strengthen ministry.",
+  scripture:"Exodus 31:3-5 · 1 Corinthians 12:28",
+  characteristics:["Skilled and creative","Detail-oriented craftsmanship","Purpose-driven in creating","Sees beauty as worship"],
+  actions:["Serve on a creative, media, or production team","Use professional or artistic skills for a ministry project","Design or build something that serves the church"]},
+];
+
+const WHEEL_COLORS = ["#000000","#333333","#5c5c5c","#858585","#adadad"];
+const DEFAULT_SCORES = [16,14,12,10,8]; // sensible descending defaults, all editable
+
+let state = {
+  stage: "form", // form | results
+  profile: { firstName:"", lastName:"", email:"" },
+  picks: [0,1,2,3,4].map(i => ({ giftId: GIFTS[i].id, score: DEFAULT_SCORES[i] })),
+};
+
+const app = document.getElementById('app');
+
+/* ---------------- RENDER: FORM ---------------- */
+function renderForm(){
+  const giftOptions = (selectedId) => GIFTS.map(g =>
+    `<option value="${g.id}" ${g.id===selectedId ? 'selected':''}>${g.name}</option>`
+  ).join('');
+
+  const rowsHtml = state.picks.map((p,i) => `
+    <div class="gift-row">
+      <div class="rank-badge">${i+1}</div>
+      <select data-idx="${i}" class="gift-select">${giftOptions(p.giftId)}</select>
+      <div class="score-wrap">
+        <input type="number" data-idx="${i}" class="score-input" min="0" max="16" value="${p.score}">
+        <span>score /16</span>
+      </div>
+    </div>
+  `).join('');
+
+  const ids = state.picks.map(p => p.giftId);
+  const hasDupes = new Set(ids).size !== ids.length;
+
+  app.innerHTML = `
+    <div class="card">
+      <span class="internal-tag">Step 1 of 2</span>
+      <h2 style="margin-top:0;">Who is this report for?</h2>
+      <p style="color:var(--muted); font-size:14px; line-height:1.6;">Names are optional — leave blank for a generic preview.</p>
+      <div class="row2">
+        <div>
+          <label class="field-label" for="firstName">First name</label>
+          <input type="text" id="firstName" placeholder="John" value="${state.profile.firstName}">
+        </div>
+        <div>
+          <label class="field-label" for="lastName">Last name</label>
+          <input type="text" id="lastName" placeholder="Doe" value="${state.profile.lastName}">
+        </div>
+      </div>
+      <label class="field-label" for="email">Email address (optional)</label>
+      <input type="email" id="email" placeholder="john@example.com" value="${state.profile.email}">
+
+      <h2>Top 5 gifts, ranked</h2>
+      <p style="color:var(--muted); font-size:14px; line-height:1.6; margin-top:-8px;">Pick the gift for each rank, and a score out of 16 (this drives the chart proportions — it doesn't need to be exact).</p>
+      ${rowsHtml}
+      ${hasDupes ? '<div class="duplicate-warning">Two or more ranks have the same gift selected — pick five different gifts.</div>' : ''}
+
+      <div class="btn-row">
+        <span style="font-size:12px; color:var(--muted);">Nothing here is saved or sent anywhere.</span>
+        <button class="btn btn-primary" id="genBtn" ${hasDupes ? 'disabled' : ''}>Generate results →</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('firstName').oninput = e => state.profile.firstName = e.target.value;
+  document.getElementById('lastName').oninput = e => state.profile.lastName = e.target.value;
+  document.getElementById('email').oninput = e => state.profile.email = e.target.value;
+
+  app.querySelectorAll('.gift-select').forEach(sel => {
+    sel.onchange = e => {
+      state.picks[+e.target.dataset.idx].giftId = e.target.value;
+      renderForm();
+    };
+  });
+  app.querySelectorAll('.score-input').forEach(inp => {
+    inp.onchange = e => {
+      let v = parseInt(e.target.value, 10);
+      if(isNaN(v)) v = 0;
+      v = Math.max(0, Math.min(16, v));
+      state.picks[+e.target.dataset.idx].score = v;
+    };
+  });
+
+  const genBtn = document.getElementById('genBtn');
+  if(genBtn){
+    genBtn.onclick = () => {
+      state.stage = "results";
+      render();
+      window.scrollTo({top:0, behavior:'smooth'});
+    };
+  }
+}
+
+/* ---------------- RENDER: RESULTS (mirrors the public results page) ---------------- */
+function renderResults(){
+  const top5 = state.picks.map(p => {
+    const g = GIFTS.find(x => x.id === p.giftId);
+    return { ...g, score: p.score, pct: Math.round((p.score/16)*100) };
+  });
+
+  const top5BarsHtml = top5.map((g,i) => `
+    <div class="top5-bar-row">
+      <div class="rank-dot" style="background:${WHEEL_COLORS[i]}">${i+1}</div>
+      <div class="bar-info">
+        <div class="bar-label"><span>${g.name}</span><span class="bar-score">${g.score}/16</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${g.pct}%; background:${WHEEL_COLORS[i]}"></div></div>
+      </div>
+    </div>
+  `).join('');
+
+  const topCardsHtml = top5.map((g,i) => `
+    <div class="gift-result-card">
+      <div class="rank">#${i+1} Primary Gift</div>
+      <h3>${g.name}</h3>
+      <div class="score-bar-track"><div class="score-bar-fill" style="width:${g.pct}%; background:${WHEEL_COLORS[i]}"></div></div>
+      <p style="margin:0 0 4px; font-size:14.5px; color:var(--muted); line-height:1.55;">${g.def}</p>
+      <div class="meta-row"><span class="chip scripture-ref">${g.scripture}</span><span class="chip">Score: ${g.score}/16</span></div>
+      <div class="section-label">You likely show this by</div>
+      <ul>${g.characteristics.map(c=>`<li>${c}</li>`).join('')}</ul>
+      <div class="section-label">Ways to put it into practice</div>
+      <ul>${g.actions.map(a=>`<li>${a}</li>`).join('')}</ul>
+    </div>
+  `).join('');
+
+  const nameLine = (state.profile.firstName || state.profile.lastName)
+    ? `${state.profile.firstName} ${state.profile.lastName}`.trim()
+    : "Preview (no name entered)";
+
+  app.innerHTML = `
+    <div class="card">
+      <span class="internal-tag">Step 2 of 2 — preview</span>
+      <div class="eyebrow" style="text-align:left;">Results for</div>
+      <h2 style="margin-top:0;">${nameLine}</h2>
+      ${state.profile.email ? `<p style="color:var(--muted); font-size:13.5px; margin-top:-8px;">${state.profile.email}</p>` : ''}
+
+      <div class="top5-chart">${top5BarsHtml}</div>
+
+      <h3 style="margin-bottom:4px;">Top 5 Spiritual Gifts</h3>
+      ${topCardsHtml}
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="backBtn">← Edit selections</button>
+        <button class="btn btn-primary" id="printBtn">Print / Save as PDF</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('backBtn').onclick = () => { state.stage = "form"; render(); };
+  document.getElementById('printBtn').onclick = () => window.print();
+}
+
+function render(){
+  if(state.stage === "form") renderForm();
+  else renderResults();
+}
+render();
+</script>
+</body>
+</html>
