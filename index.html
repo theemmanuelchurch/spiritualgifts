@@ -98,7 +98,6 @@
     background:var(--panel-2);
   }
   .scale input{ display:none; }
-  .scale input:checked + span{ display:block; }
   .scale label.checked{ background:var(--black); color:var(--white); border-color:var(--black); }
   .scale .num{ display:block; font-family:'Montserrat',sans-serif; font-size:16px; font-weight:700; margin-bottom:2px; }
   /* results */
@@ -162,7 +161,7 @@
       width:26px; height:26px; border-radius:50%; background:var(--line);
       margin-bottom:0; font-size:14px;
     }
-    .scale label.checked .num{ background:rgba(255,255,255,0.25); }
+    .scale label.checked .num{ background:var(--white); color:var(--black); }
     .statement{ font-size:15px; }
 
     .btn{ width:100%; text-align:center; padding:14px 20px; }
